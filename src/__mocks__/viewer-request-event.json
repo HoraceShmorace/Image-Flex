@@ -1,0 +1,64 @@
+{
+  "Records": [
+      {
+          "cf": {
+              "config": {
+                  "distributionDomainName": "d1ppm5fhf7dvj2.cloudfront.net",
+                  "distributionId": "E3FLSY2KR0CQYV",
+                  "eventType": "viewer-request",
+                  "requestId": "N97qvOQyYTiydBX1BZDG9QcXrrepJtRnU-lAbzMKNK_tXpKGEUN3PQ=="
+              },
+              "request": {
+                  "clientIp": "108.41.158.64",
+                  "headers": {
+                      "host": [
+                          {
+                              "key": "Host",
+                              "value": "d1ppm5fhf7dvj2.cloudfront.net"
+                          }
+                      ],
+                      "user-agent": [
+                          {
+                              "key": "User-Agent",
+                              "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+                          }
+                      ],
+                      "cache-control": [
+                          {
+                              "key": "Cache-Control",
+                              "value": "max-age=0"
+                          }
+                      ],
+                      "upgrade-insecure-requests": [
+                          {
+                              "key": "Upgrade-Insecure-Requests",
+                              "value": "1"
+                          }
+                      ],
+                      "accept": [
+                          {
+                              "key": "Accept",
+                              "value": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+                          }
+                      ],
+                      "accept-encoding": [
+                          {
+                              "key": "Accept-Encoding",
+                              "value": "gzip, deflate"
+                          }
+                      ],
+                      "accept-language": [
+                          {
+                              "key": "Accept-Language",
+                              "value": "en-US,en;q=0.9"
+                          }
+                      ]
+                  },
+                  "method": "GET",
+                  "querystring": "w=300",
+                  "uri": "/ghosted.jpg"
+              }
+          }
+      }
+  ]
+}

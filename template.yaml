@@ -1,0 +1,190 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  EdgeLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+            - edgelambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: /service-role/
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - "arn:aws:iam::aws:policy/AWSXrayFullAccess"
+      Policies:
+        -
+          PolicyName: !Sub ${AWS::StackName}-images-Lambda-S3 
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              Effect: Allow
+              Action:
+                - 's3:*'
+              Resource:
+                - !Sub arn:aws:s3:::${AWS::StackName}-images
+                - !Sub arn:aws:s3:::${AWS::StackName}-images/*
+          
+  OriginAccessId:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: !Sub ${AWS::StackName}-images
+
+  ImageBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${AWS::StackName}-images
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      CorsConfiguration:
+        CorsRules:
+          - AllowedOrigins:
+              - "*"
+            AllowedMethods:
+              - "GET"
+            AllowedHeaders:
+              - "*"
+
+  ImageBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref ImageBucket
+      PolicyDocument:
+        Id:  !Sub ${AWS::StackName}-images-policy 
+        Version: 2012-10-17
+        Statement:
+          -
+            Action:
+              - "s3:GetObject"
+            Effect: "Allow"
+            Resource: !Sub arn:aws:s3:::${AWS::StackName}-images/*
+            Principal:
+              AWS: !Sub "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${OriginAccessId}"
+
+  UriToS3KeyFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-UriToS3Key
+      AutoPublishAlias: live
+      CodeUri: src/UriToS3Key/
+      Handler: index.handler
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 1
+      Role: !GetAtt EdgeLambdaRole.Arn
+    
+  GetOrCreateImageFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-GetOrCreateImage
+      AutoPublishAlias: live
+      CodeUri: src/GetOrCreateImage/
+      Handler: index.handler
+      Runtime: nodejs12.x
+      MemorySize: 256
+      Timeout: 30
+      Role: !GetAtt EdgeLambdaRole.Arn
+
+  WebACL:
+    Type: 'AWS::WAFv2::WebACL'
+    Properties:
+      Name: !Sub ${AWS::StackName}-WebAcl
+      Scope: "CLOUDFRONT"
+      DefaultAction:
+        Allow: {}
+      Rules: 
+        - Name: AWS-AWSManagedRulesCommonRuleSet
+          Priority: 0
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: !Sub ${AWS::StackName}-MetricForAMRCRS
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesCommonRuleSet
+              ExcludedRules:
+                - Name: NoUserAgent_HEADER
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: !Sub ${AWS::StackName}-WebAcl
+
+  Distribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        # EXTRA FEATURES
+
+        # Uncomment the next two lines to use a custom CNAME (must be configured in Route 53, or your DNS provider).
+        # Aliases:
+        #   - YOUR CNAME HERE
+
+        # ViewerCertificate:
+
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: true
+          # Replace the above line with the following to indicate your own certificate to use for HTTPS
+          # CloudFrontDefaultCertificate: true
+          # AcmCertificateArn: YOUR CERTIFICATE MANAGER ARN HERE
+          # SslSupportMethod: "sni-only"
+
+        WebACLId: !GetAtt WebACL.Arn
+
+        Origins:
+          - 
+            DomainName: !Sub ${AWS::StackName}-images.s3.amazonaws.com
+            Id: !Sub ${AWS::StackName}-images
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${OriginAccessId}"
+
+        Enabled: 'true'
+        Comment: !Sub Distribution for ${AWS::StackName}
+        DefaultCacheBehavior:
+          TargetOriginId: !Sub ${AWS::StackName}-images
+          LambdaFunctionAssociations:
+            - EventType: 'viewer-request'
+              LambdaFunctionARN: !Ref UriToS3KeyFunction.Version
+            - EventType: 'origin-response'
+              LambdaFunctionARN: !Ref GetOrCreateImageFunction.Version
+          ForwardedValues:
+            QueryString: 'true'
+            QueryStringCacheKeys:
+              - w
+              - h
+            Cookies:
+              Forward: 'none'
+            Headers:
+              - "Access-Control-Request-Method"
+              - "Access-Control-Request-Headers"
+              - "Origin"
+          ViewerProtocolPolicy: allow-all
+          MinTTL: '100'
+          Compress: 'true'
+        PriceClass: PriceClass_All
+
+Outputs:
+  DistributionDomain:
+    Value: !GetAtt Distribution.DomainName
+    Description: Cloudfront distribution domain.
+
+  UriToS3KeyFunction:
+    Value: !Ref UriToS3KeyFunction
+    Description: Lambda function for the Cloudfront viewer-request event.
+  
+  GetOrCreateImageFunction:
+    Value: !Ref GetOrCreateImageFunction
+    Description: Lambda function for the Cloudfront origin-response event.

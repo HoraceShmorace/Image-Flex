@@ -1,0 +1,38 @@
+{
+  "name": "image-flex",
+  "version": "1.0.0",
+  "description": "A robust image resizing service built on AWS Serverless technologies and used to resize, optimize, and cache images on \"the edge,\" on the fly. Served by CloudFront via an Origin Access Identity. Executed on Lambda@Edge. Backed by S3. Protected by AWS WAF. Provisioned via CloudFormation. Built and deployed by the Serverless Application Model (SAM) CLI.",
+  "scripts": {
+    "setup": "bash -c './bin/setup.sh $0-deploy'",
+    "build": "bash -c './bin/build.sh'",
+    "package": "bash -c './bin/package.sh $0'",
+    "deploy": "bash -c './bin/deploy.sh $0'",
+    "update": "bash -c './bin/update.sh $0'",
+    "lint": "standardx --fix \"functions/**/*.js\"",
+    "test": "jest"
+  },
+  "author": "@the-principal",
+  "license": "ISC",
+  "repository": {
+    "url": "https://github.com/the-principal/Image-Flex.git"
+  },
+  "devDependencies": {
+    "husky": "^5.0.9",
+    "jest": "^26.6.3",
+    "standardx": "^5.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint && npm test"
+    }
+  },
+  "eslintConfig": {
+    "env": {
+      "jest": true,
+      "node": true
+    }
+  },
+  "jest": {
+    "rootDir": "./src"
+  }
+}

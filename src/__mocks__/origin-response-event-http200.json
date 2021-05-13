@@ -1,0 +1,133 @@
+{
+  "Records": [
+      {
+          "cf": {
+              "config": {
+                  "distributionDomainName": "d1ppm5fhf7dvj2.cloudfront.net",
+                  "distributionId": "E3FLSY2KR0CQYV",
+                  "eventType": "origin-response",
+                  "requestId": "ZglsXKNU9HC_gwfO1qhXqGh_AipNOvr73VwCe0CTN3-Guu-b1C5MEw=="
+              },
+              "request": {
+                  "clientIp": "108.41.158.64",
+                  "headers": {
+                      "x-forwarded-for": [
+                          {
+                              "key": "X-Forwarded-For",
+                              "value": "108.41.158.64"
+                          }
+                      ],
+                      "user-agent": [
+                          {
+                              "key": "User-Agent",
+                              "value": "Amazon CloudFront"
+                          }
+                      ],
+                      "via": [
+                          {
+                              "key": "Via",
+                              "value": "1.1 bcf69805bd7618b134f85cb9528fba32.cloudfront.net (CloudFront)"
+                          }
+                      ],
+                      "upgrade-insecure-requests": [
+                          {
+                              "key": "Upgrade-Insecure-Requests",
+                              "value": "1"
+                          }
+                      ],
+                      "accept-encoding": [
+                          {
+                              "key": "Accept-Encoding",
+                              "value": "gzip"
+                          }
+                      ],
+                      "host": [
+                          {
+                              "key": "Host",
+                              "value": "image-test-images.s3.amazonaws.com"
+                          }
+                      ],
+                      "cache-control": [
+                          {
+                              "key": "Cache-Control",
+                              "value": "max-age=0"
+                          }
+                      ]
+                  },
+                  "method": "GET",
+                  "origin": {
+                      "s3": {
+                          "authMethod": "origin-access-identity",
+                          "customHeaders": {},
+                          "domainName": "image-test-images.s3.amazonaws.com",
+                          "path": "",
+                          "region": "us-east-1"
+                      }
+                  },
+                  "querystring": "nextExtension=webp&height=400&sourceImage=good-image.jpg&width=700",
+                  "uri": "/700x400/good-image.webp"
+              },
+              "response": {
+                  "headers": {
+                      "x-amz-id-2": [
+                          {
+                              "key": "x-amz-id-2",
+                              "value": "8q8ejgujau4YCUdFL3Ck1VPB6PsiEr/60RIZPUDxgOuzM/t/Dueg5SG1RdbKxnFKN7u+Yt8QkiI="
+                          }
+                      ],
+                      "x-amz-request-id": [
+                          {
+                              "key": "x-amz-request-id",
+                              "value": "37THKNX0N2ADYKS3"
+                          }
+                      ],
+                      "date": [
+                          {
+                              "key": "Date",
+                              "value": "Sat, 08 May 2021 23:36:25 GMT"
+                          }
+                      ],
+                      "last-modified": [
+                          {
+                              "key": "Last-Modified",
+                              "value": "Sat, 08 May 2021 23:33:28 GMT"
+                          }
+                      ],
+                      "etag": [
+                          {
+                              "key": "ETag",
+                              "value": "\"72a9ff667c12b7d156a696877fc4df89\""
+                          }
+                      ],
+                      "accept-ranges": [
+                          {
+                              "key": "Accept-Ranges",
+                              "value": "bytes"
+                          }
+                      ],
+                      "server": [
+                          {
+                              "key": "Server",
+                              "value": "AmazonS3"
+                          }
+                      ],
+                      "content-type": [
+                          {
+                              "key": "Content-Type",
+                              "value": "image/webp"
+                          }
+                      ],
+                      "content-length": [
+                          {
+                              "key": "Content-Length",
+                              "value": "2832"
+                          }
+                      ]
+                  },
+                  "status": "200",
+                  "statusDescription": "OK"
+              }
+          }
+      }
+  ]
+}

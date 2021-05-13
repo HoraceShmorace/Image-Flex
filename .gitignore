@@ -1,0 +1,5 @@
+.aws-sam
+.DS_Store
+dist
+fixup.sh
+node_modules

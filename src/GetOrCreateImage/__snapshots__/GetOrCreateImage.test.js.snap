@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GetOrCreateImage when the resized image does not exist, but the source image does exist should match snapshot 1`] = `
+Object {
+  "body": "[object Object]",
+  "bodyEncoding": "base64",
+  "headers": Object {
+    "content-type": Array [
+      Object {
+        "key": "Content-Type",
+        "value": "image/webp",
+      },
+    ],
+    "date": Array [
+      Object {
+        "key": "Date",
+        "value": "Sat, 08 May 2021 23:33:25 GMT",
+      },
+    ],
+    "server": Array [
+      Object {
+        "key": "Server",
+        "value": "AmazonS3",
+      },
+    ],
+    "transfer-encoding": Array [
+      Object {
+        "key": "Transfer-Encoding",
+        "value": "chunked",
+      },
+    ],
+    "x-amz-id-2": Array [
+      Object {
+        "key": "x-amz-id-2",
+        "value": "QZlgZ/jWFGkc/pjNjijOkI1KjEH7avdgXL/2r5kuD7xMWFs6K3CSnHycKhzcVrN1chM0Hkq+IQM=",
+      },
+    ],
+    "x-amz-request-id": Array [
+      Object {
+        "key": "x-amz-request-id",
+        "value": "XPWJPWV1KP5CFDTS",
+      },
+    ],
+  },
+  "status": 200,
+  "statusDescription": "Found",
+}
+`;
+
+exports[`GetOrCreateImage when the resized image exists should match snapshot 1`] = `
+Object {
+  "headers": Object {
+    "accept-ranges": Array [
+      Object {
+        "key": "Accept-Ranges",
+        "value": "bytes",
+      },
+    ],
+    "content-length": Array [
+      Object {
+        "key": "Content-Length",
+        "value": "2832",
+      },
+    ],
+    "content-type": Array [
+      Object {
+        "key": "Content-Type",
+        "value": "image/webp",
+      },
+    ],
+    "date": Array [
+      Object {
+        "key": "Date",
+        "value": "Sat, 08 May 2021 23:36:25 GMT",
+      },
+    ],
+    "etag": Array [
+      Object {
+        "key": "ETag",
+        "value": "\\"72a9ff667c12b7d156a696877fc4df89\\"",
+      },
+    ],
+    "last-modified": Array [
+      Object {
+        "key": "Last-Modified",
+        "value": "Sat, 08 May 2021 23:33:28 GMT",
+      },
+    ],
+    "server": Array [
+      Object {
+        "key": "Server",
+        "value": "AmazonS3",
+      },
+    ],
+    "x-amz-id-2": Array [
+      Object {
+        "key": "x-amz-id-2",
+        "value": "8q8ejgujau4YCUdFL3Ck1VPB6PsiEr/60RIZPUDxgOuzM/t/Dueg5SG1RdbKxnFKN7u+Yt8QkiI=",
+      },
+    ],
+    "x-amz-request-id": Array [
+      Object {
+        "key": "x-amz-request-id",
+        "value": "37THKNX0N2ADYKS3",
+      },
+    ],
+  },
+  "status": "200",
+  "statusDescription": "OK",
+}
+`;
+
+exports[`GetOrCreateImage when the source image does not exist should match snapshot 1`] = `
+Object {
+  "body": "Error while getting source image object \\"bad-image.jpg\\": Error",
+  "bodyEncoding": "text",
+  "headers": Object {
+    "content-type": Array [
+      Object {
+        "key": "Content-Type",
+        "value": "text/plain",
+      },
+    ],
+    "date": Array [
+      Object {
+        "key": "Date",
+        "value": "Sat, 08 May 2021 23:38:02 GMT",
+      },
+    ],
+    "server": Array [
+      Object {
+        "key": "Server",
+        "value": "AmazonS3",
+      },
+    ],
+    "transfer-encoding": Array [
+      Object {
+        "key": "Transfer-Encoding",
+        "value": "chunked",
+      },
+    ],
+    "x-amz-id-2": Array [
+      Object {
+        "key": "x-amz-id-2",
+        "value": "4/PLziA+bP9cjFWVFErAyGd5NuOWY4E8XuE3DH0J913HugdpsWOCg+MsIAapBR8CXjT15VBywq8=",
+      },
+    ],
+    "x-amz-request-id": Array [
+      Object {
+        "key": "x-amz-request-id",
+        "value": "VWT4ZVZW6KVSZXK5",
+      },
+    ],
+  },
+  "status": 404,
+  "statusDescription": "Not Found",
+}
+`;

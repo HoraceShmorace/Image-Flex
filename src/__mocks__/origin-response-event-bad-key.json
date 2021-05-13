@@ -1,0 +1,109 @@
+{
+  "Records": [
+      {
+          "cf": {
+              "config": {
+                  "distributionDomainName": "d1ppm5fhf7dvj2.cloudfront.net",
+                  "distributionId": "E3FLSY2KR0CQYV",
+                  "eventType": "origin-response",
+                  "requestId": "KN-wBwbmbE62plUp5mxC6hxzoXSOt9n6OZ06z2LjULGpbpOCpRWwqw=="
+              },
+              "request": {
+                  "clientIp": "108.41.158.64",
+                  "headers": {
+                      "x-forwarded-for": [
+                          {
+                              "key": "X-Forwarded-For",
+                              "value": "108.41.158.64"
+                          }
+                      ],
+                      "user-agent": [
+                          {
+                              "key": "User-Agent",
+                              "value": "Amazon CloudFront"
+                          }
+                      ],
+                      "via": [
+                          {
+                              "key": "Via",
+                              "value": "1.1 4d8d3505beb1aa504be6a19a0d2e784c.cloudfront.net (CloudFront)"
+                          }
+                      ],
+                      "upgrade-insecure-requests": [
+                          {
+                              "key": "Upgrade-Insecure-Requests",
+                              "value": "1"
+                          }
+                      ],
+                      "accept-encoding": [
+                          {
+                              "key": "Accept-Encoding",
+                              "value": "gzip"
+                          }
+                      ],
+                      "host": [
+                          {
+                              "key": "Host",
+                              "value": "image-test-images.s3.amazonaws.com"
+                          }
+                      ]
+                  },
+                  "method": "GET",
+                  "origin": {
+                      "s3": {
+                          "authMethod": "origin-access-identity",
+                          "customHeaders": {},
+                          "domainName": "image-test-images.s3.amazonaws.com",
+                          "path": "",
+                          "region": "us-east-1"
+                      }
+                  },
+                  "querystring": "nextExtension=webp&height=400&sourceImage=bad-image.jpg&width=700",
+                  "uri": "/700x400/bad-image.webp"
+              },
+              "response": {
+                  "headers": {
+                      "x-amz-request-id": [
+                          {
+                              "key": "x-amz-request-id",
+                              "value": "VWT4ZVZW6KVSZXK5"
+                          }
+                      ],
+                      "x-amz-id-2": [
+                          {
+                              "key": "x-amz-id-2",
+                              "value": "4/PLziA+bP9cjFWVFErAyGd5NuOWY4E8XuE3DH0J913HugdpsWOCg+MsIAapBR8CXjT15VBywq8="
+                          }
+                      ],
+                      "date": [
+                          {
+                              "key": "Date",
+                              "value": "Sat, 08 May 2021 23:38:02 GMT"
+                          }
+                      ],
+                      "server": [
+                          {
+                              "key": "Server",
+                              "value": "AmazonS3"
+                          }
+                      ],
+                      "content-type": [
+                          {
+                              "key": "Content-Type",
+                              "value": "application/xml"
+                          }
+                      ],
+                      "transfer-encoding": [
+                          {
+                              "key": "Transfer-Encoding",
+                              "value": "chunked"
+                          }
+                      ]
+                  },
+                  "status": "404",
+                  "statusDescription": "Not Found"
+              }
+          }
+      }
+  ]
+}
