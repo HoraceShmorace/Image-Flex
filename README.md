@@ -106,13 +106,20 @@ The following NPM scripts are available:
 
 Each NPM script calls a shell script of the same name in the /bin directory.
 
->:information_source: Note: The `setup`, `package`, `deploy`, and `update` scripts accept an optional command line argument to indicate the current environment (e.g., dev, staging, prod, etc.). This will be the name of your Image Flex-based application in CloudFormation. Keep in mind that the names of all resources will be prepended with this name (including the S3 bucket to store the image files, further noting). 
+### :information_source: Setting the execution environment
+
+#### via environment variable
+These scripts (except for build) all run within the context of an execution environment (e.g., dev, staging, prod, etc.). You can set the execution environment 
+
+#### via the command line
+Alternately, the `setup`, `package`, `deploy`, and `update` scripts accept an optional command line argument to indicate the current execution environment (e.g., dev, staging, prod, etc.). This will be the name of your Image Flex-based application in CloudFormation. Keep in mind that the names of all resources will be prepended with this name (including the S3 bucket to store the image files, further noting). 
 
 Examples:
-* `$ npm run update dev`
-* `$ npm run update staging`
-* `$ npm run update prod`
-* `$ npm run update bills-test`
+* `$ npm run update -- dev`
+* `$ npm run update -- staging`
+* `$ npm run update -- prod`
+* `$ npm run update -- bills-test`
+
 ### 1. Setup
 ```bash
 $ npm run setup [env]
