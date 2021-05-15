@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "A robust image resizing service built on AWS Serverless technologies and used to resize, optimize, and cache images on \"the edge,\" on the fly. Served by CloudFront via an Origin Access Identity. Executed on Lambda@Edge. Backed by S3. Protected by AWS WAF. Provisioned via CloudFormation. Built and deployed by the Serverless Application Model (SAM) CLI.",
   "scripts": {
-    "setup": "bash -c './bin/setup.sh $0-deploy'",
+    "setup": "bash -c './bin/setup.sh $npm_package_name $0'",
+    "meta": "bash -c './bin/meta.sh $npm_package_name $0'",
     "build": "bash -c './bin/build.sh'",
-    "package": "bash -c './bin/package.sh $0'",
-    "deploy": "bash -c './bin/deploy.sh $0'",
-    "update": "bash -c './bin/update.sh $0'",
+    "package": "bash -c './bin/package.sh $npm_package_name $0'",
+    "deploy": "bash -c './bin/deploy.sh $npm_package_name $0'",
+    "update": "bash -c './bin/update.sh $npm_package_name $0'",
     "lint": "standardx --fix \"functions/**/*.js\"",
     "test": "jest"
   },

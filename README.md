@@ -25,12 +25,22 @@ For detailed instructions on setting up the AWS CLI, read [the official AWS CLI 
 Deploy the whole service in 2 commands! Run the `setup` and `update` NPM scripts, passing a name for your application. For a detailed explanation of these commands, see the section [Building and Deploying](#building-and-deploying).
 
 ```bash
-$ npm run setup my-image-flex-app
-$ npm run update my-image-flex-app
+$ npm run setup
+$ npm run update
 ```
 
 1. The `setup` NPM script will create the CloudFormation deployment bucket.
 1. The `update` NPM script will build, package, and deploy the application stack to CloudFormation using the AWS SAM CLI. When the script is finished, it will print an "Outputs" section that includes the "DistributionDomain," which is the URL for your CloudFront distribution (e.g., `[Distro ID].cloudfront.net`). Note this value for later, as it is how you will access the service.
+
+> These scripts take an optional argument to indicate the execution environment. Omitting this will result in the default of "dev" being used.
+
+***Example:***
+
+```bash
+$ npm run setup -- staging
+$ npm run update -- staging
+```
+
 
 ## Usage
 
@@ -70,7 +80,11 @@ https://[Distro ID].cloudfront.net/myimage.png?w=400&h=400
 
 ![Alt text](/diagram.png?raw=true "Systen Diagram")
 
-The fully actioned (built, packaged, and deployed) [SAM template](/template.yaml) will result in the following resources being created across AWS:
+The fully actioned (built, packaged, and deployed) [SAM template](/template.yaml) will result in a CloudFormation *stack* of resources being created across numerous AWS services (see the following table). 
+
+> Any named resources will have the name prepended with the name of the stack, which itself is assembled from the application (image-flex), your AWS account ID, and the execution environment ("dev" by default).
+> **Example stack name:** `image-flex-412342973409-prod`
+**Example S3 bucket name:** `image-flex-412342973409-prod-images`
 
 | Resource Type | Resource Name | Description |
 |---|---|---|
@@ -92,22 +106,22 @@ The following NPM scripts are available:
 
 Each NPM script calls a shell script of the same name in the /bin directory.
 
-:information_source: Note: Most of these scripts require an arbitrary `[Stack Name]` argument to be passed. This will be the name of your Image Flex-based application in CloudFormation. Keep in mind that the names of all resources will be prepended with this name (including the S3 bucket to store the image files). 
+>:information_source: Note: The `setup`, `package`, `deploy`, and `update` scripts accept an optional command line argument to indicate the current environment (e.g., dev, staging, prod, etc.). This will be the name of your Image Flex-based application in CloudFormation. Keep in mind that the names of all resources will be prepended with this name (including the S3 bucket to store the image files, further noting). 
 
 Examples:
-* `$ npm run update my-stack-name`
-* `$ npm run update my-image-flex-app`
-* `$ npm run update image-resizer-dev`
-* `$ npm run update image-resizer-prod`
+* `$ npm run update dev`
+* `$ npm run update staging`
+* `$ npm run update prod`
+* `$ npm run update bills-test`
 ### 1. Setup
 ```bash
-$ npm run setup [Stack Name]
+$ npm run setup [env]
 ```
 Creates the CloudFormation deployment S3 bucket. SAM/CloudFormation will upload packaged build artifacts to this bucket to later be deployed. 
 
 ### 2. Update
 ```bash
-$ npm run update [Stack Name]
+$ npm run update [env]
 ```
 A convenience script that runs `npm run build`, `npm run package`, and `npm run deploy` in order.
 
@@ -121,13 +135,13 @@ Installs and builds the dependencies for the ***GetOrCreateImage*** Lambda funct
 
 ### 4. Package
 ```bash
-$ npm run package [Stack Name]
+$ npm run package [env]
 ```
 Packages (zips) the functions and built dependencies, and uploads the artifacts to the deployment bucket.
 
 ### 5. Deploy
 ```bash
-$ npm run deploy [Stack Name]
+$ npm run deploy [env]
 ```
 Deploys the application as defined by the SAM template, creating or updating the resources.
 
