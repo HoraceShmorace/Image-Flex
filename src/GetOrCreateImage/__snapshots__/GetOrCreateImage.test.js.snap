@@ -1,6 +1,53 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GetOrCreateImage when the resized image does not exist, but the source image does exist should match snapshot 1`] = `
+exports[`GetOrCreateImage when the resized image does not exist (403), but the source image does exist should match snapshot 1`] = `
+Object {
+  "body": "[object Object]",
+  "bodyEncoding": "base64",
+  "headers": Object {
+    "content-type": Array [
+      Object {
+        "key": "Content-Type",
+        "value": "image/webp",
+      },
+    ],
+    "date": Array [
+      Object {
+        "key": "Date",
+        "value": "Sat, 08 May 2021 23:33:25 GMT",
+      },
+    ],
+    "server": Array [
+      Object {
+        "key": "Server",
+        "value": "AmazonS3",
+      },
+    ],
+    "transfer-encoding": Array [
+      Object {
+        "key": "Transfer-Encoding",
+        "value": "chunked",
+      },
+    ],
+    "x-amz-id-2": Array [
+      Object {
+        "key": "x-amz-id-2",
+        "value": "QZlgZ/jWFGkc/pjNjijOkI1KjEH7avdgXL/2r5kuD7xMWFs6K3CSnHycKhzcVrN1chM0Hkq+IQM=",
+      },
+    ],
+    "x-amz-request-id": Array [
+      Object {
+        "key": "x-amz-request-id",
+        "value": "XPWJPWV1KP5CFDTS",
+      },
+    ],
+  },
+  "status": 200,
+  "statusDescription": "Found",
+}
+`;
+
+exports[`GetOrCreateImage when the resized image does not exist (404), but the source image does exist should match snapshot 1`] = `
 Object {
   "body": "[object Object]",
   "bodyEncoding": "base64",

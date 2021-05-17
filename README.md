@@ -32,7 +32,7 @@ $ npm run update
 1. The `setup` NPM script will create the CloudFormation deployment bucket.
 1. The `update` NPM script will build, package, and deploy the application stack to CloudFormation using the AWS SAM CLI. When the script is finished, it will print an "Outputs" section that includes the "DistributionDomain," which is the URL for your CloudFront distribution (e.g., `[Distro ID].cloudfront.net`). Note this value for later, as it is how you will access the service.
 
-> These scripts take an optional argument to indicate the execution environment. Omitting this will result in the default of "dev" being used.
+> These scripts take an optional argument to indicate the execution environment. If you don't set the execution environment, the default of "dev" will be used. For info on setting the execution environment, see [Setting the execution environment](https://github.com/HoraceShmorace/Image-Flex#information_source-setting-the-execution-environment).
 
 ***Example:***
 
@@ -46,7 +46,7 @@ $ npm run update -- staging
 
 Using an Image Flex implementation is easy. Once the infrastructure has spun up, simply upload your raw, unoptimized images to the S3 bucket root. You can then access those files directly, or pass a `w` (width) query string parameter to fetch a resized and optimized copy, which also gets stored in the S3 bucket and cached in CloudFront.
 
-***Example***
+***Example:***
 
 Suppose that you drop a 1600x900-pixel image named *myimage.png* into the created S3 bucket. You can now load this exact image in the browser via the distribution domain:
 
@@ -107,12 +107,19 @@ The following NPM scripts are available:
 Each NPM script calls a shell script of the same name in the /bin directory.
 
 ### :information_source: Setting the execution environment
+These scripts (except for build) all run within the context of an execution environment (e.g., dev, staging, prod, etc.). This will be appended to the name of your Image Flex-based application in CloudFormation.
+> If you don't explicitly set this via one of the following methods, the default environment "dev" will be used.
 
 #### via environment variable
-These scripts (except for build) all run within the context of an execution environment (e.g., dev, staging, prod, etc.). You can set the execution environment 
+You can set the execution environment for all scripts by setting the `IF_ENV` environment variable.
+
+***Example:***
+```
+export IF_ENV=prod
+```
 
 #### via the command line
-Alternately, the `setup`, `package`, `deploy`, and `update` scripts accept an optional command line argument to indicate the current execution environment (e.g., dev, staging, prod, etc.). This will be the name of your Image Flex-based application in CloudFormation. Keep in mind that the names of all resources will be prepended with this name (including the S3 bucket to store the image files, further noting). 
+Alternately, the `setup`, `package`, `deploy`, and `update` scripts accept an optional command line argument to indicate the current execution environment (e.g., dev, staging, prod, etc.). 
 
 Examples:
 * `$ npm run update -- dev`
@@ -122,13 +129,13 @@ Examples:
 
 ### 1. Setup
 ```bash
-$ npm run setup [env]
+$ npm run setup [-- env]
 ```
 Creates the CloudFormation deployment S3 bucket. SAM/CloudFormation will upload packaged build artifacts to this bucket to later be deployed. 
 
 ### 2. Update
 ```bash
-$ npm run update [env]
+$ npm run update [-- env]
 ```
 A convenience script that runs `npm run build`, `npm run package`, and `npm run deploy` in order.
 
@@ -142,13 +149,13 @@ Installs and builds the dependencies for the ***GetOrCreateImage*** Lambda funct
 
 ### 4. Package
 ```bash
-$ npm run package [env]
+$ npm run package [-- env]
 ```
 Packages (zips) the functions and built dependencies, and uploads the artifacts to the deployment bucket.
 
 ### 5. Deploy
 ```bash
-$ npm run deploy [env]
+$ npm run deploy [-- env]
 ```
 Deploys the application as defined by the SAM template, creating or updating the resources.
 
