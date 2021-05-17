@@ -88,12 +88,13 @@ The fully actioned (built, packaged, and deployed) [SAM template](/template.yaml
 
 | Resource Type | Resource Name | Description |
 |---|---|---|
-| [CloudFront Distribution](https://aws.amazon.com/cloudfront/) | N/A | Content Delivery Network (CDN) to cache images at locations closest to users. |
 | [AWS WAF Web ACL](https://docs.aws.amazon.com/waf/latest/developerguide/web-acl.html) | `[Stack Name]`-WebAcl | Defends the application from common web exploits by enforcing various access rules. This application implements AWS's [Core Rule Set](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html). |
-| [S3 Bucket](https://aws.amazon.com/s3) | `[Stack Name]`-images | Serves as the CloudFront origin, storing the original image assets in the root, and resized image assets within subdirectories by width. |
+| [CloudFront Distribution](https://aws.amazon.com/cloudfront/) | N/A | Content Delivery Network (CDN) to cache images at locations closest to users. |
+| [Logging S3 Bucket](https://aws.amazon.com/s3) | `[Stack Name]`-cflogs | Stores the compressed CloudFront logs. |
+| [Hosting S3 Bucket](https://aws.amazon.com/s3) | `[Stack Name]`-images | Serves as the CloudFront origin, storing the original image assets in the root, and resized image assets within subdirectories by width. |
 | [Origin Access Identity](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html) | N/A | Restricts direct access to the S3 bucket content, only allowing the CloudFront distribution to read and serve the image files.  |
-| [Lambda@Edge](https://aws.amazon.com/lambda/edge/) | `[Stack Name]`-UriToS3Key | Responds to the "viewer request" CloudFront trigger, and will reformat the requested URI into a valid S3 key expected by the S3 bucket. Example: **/image.png?w=300** `=>` **/300/image.webp** |
-| [Lambda@Edge](https://aws.amazon.com/lambda/edge/) | `[Stack Name]`-GetOrCreateImage | Responds to the "origin response" CloudFront trigger, and: <ol><li>If the requested image in the requested size is found, return it.</li><li>Otherwise, if the requested image in the requested size is not found, attempt to create an image in the requested size from the base image.</li><li>Otherwise, if the base image is not found, return *HTTP status 404: Not Found*.</li></ol> |
+| [Viewer Request Lambda@Edge](https://docs.aws.amazon.com/lambda/latest/dg/lambda-edge.html) | `[Stack Name]`-UriToS3Key | Responds to the "viewer request" CloudFront trigger, and will reformat the requested URI into a valid S3 key expected by the S3 bucket. Example: **/image.png?w=300** `=>` **/300/image.webp** |
+| [Origin Response Lambda@Edge](https://docs.aws.amazon.com/lambda/latest/dg/lambda-edge.html) | `[Stack Name]`-GetOrCreateImage | Responds to the "origin response" CloudFront trigger, and: <ol><li>If the requested image in the requested size is found, return it.</li><li>Otherwise, if the requested image in the requested size is not found, attempt to create an image in the requested size from the base image.</li><li>Otherwise, if the base image is not found, return *HTTP status 404: Not Found*.</li></ol> |
 
 ## Building and Deploying
 The following NPM scripts are available:
@@ -108,18 +109,34 @@ Each NPM script calls a shell script of the same name in the /bin directory.
 
 ### :information_source: Setting the execution environment
 These scripts (except for build) all run within the context of an execution environment (e.g., dev, staging, prod, etc.). This will be appended to the name of your Image Flex-based application in CloudFormation.
-> If you don't explicitly set this via one of the following methods, the default environment "dev" will be used.
+
+There are 2 ways to set the execution environment. If you don't explicitly set it via one of these  methods, the default environment "dev" will be used.
+
+**To set the execution environment:**
+1. Via the `IF_ENV` environment variable.
+2. By passing the `[-- env]` argument when calling the build/deploy scripts.
+> Note that if you both set the `IF_ENV` environment variable *and* pass this argument via the command line, the command line argument will take priority.
 
 #### via environment variable
 You can set the execution environment for all scripts by setting the `IF_ENV` environment variable.
 
 ***Example:***
-```
+For MacOS:
+```bash
 export IF_ENV=prod
+```
+For Windows (development is untested on Windows):
+```bash
+setx IF_ENV "prod"
+```
+and then run the scripts, affecting your "prod" environment
+```bash
+npm run setup
+npm run update
 ```
 
 #### via the command line
-Alternately, the `setup`, `package`, `deploy`, and `update` scripts accept an optional command line argument to indicate the current execution environment (e.g., dev, staging, prod, etc.). 
+Alternately, the `setup`, `package`, `deploy`, and `update` scripts accept an optional command line argument to indicate the current execution environment (e.g., dev, staging, prod, etc.).
 
 Examples:
 * `$ npm run update -- dev`
@@ -160,7 +177,7 @@ $ npm run deploy [-- env]
 Deploys the application as defined by the SAM template, creating or updating the resources.
 
 ## Linting
-Linting is instrumented via ESLint using Standard (JavaScript Standard Style). To execute linting, run the following:
+Linting is instrumented via ESLint using Standardx (JavaScript Standard Style). To execute linting, run the following:
 
 ```
 npm run lint
@@ -173,7 +190,7 @@ Unit tests are instrumented via Jest.
 npm run test
 ```
 
-## Make it production-ready
+## Make it fully production-ready
 While these steps are in no way required, here are some recommendations for a rock-solid, production ready implementation.
 
 ### 1. Use a CNAME
