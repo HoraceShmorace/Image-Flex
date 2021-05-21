@@ -22,7 +22,7 @@ For detailed instructions on setting up the AWS CLI, read [the official AWS CLI 
 
 ## Quickstart
 
-Deploy the whole service in 2 commands! Run the `setup` and `update` NPM scripts, passing a name for your application. For a detailed explanation of these commands, see the section [Building and Deploying](#building-and-deploying).
+Deploy the whole service in 2 commands! Run the `setup` and `update` NPM scripts, passing a name for your execution environment (see [Setting the execution environment](#information_source-setting-the-execution-environment)). For a detailed explanation of these commands, see the section [Building and Deploying](#building-and-deploying).
 
 ```bash
 $ npm run setup
