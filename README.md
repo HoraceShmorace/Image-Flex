@@ -25,8 +25,8 @@ For detailed instructions on setting up the AWS CLI, read [the official AWS CLI 
 Deploy the whole service in 2 commands! Run the `setup` and `update` NPM scripts, passing a name for your execution environment (see [Setting the execution environment](#information_source-setting-the-execution-environment)). For a detailed explanation of these commands, see the section [Building and Deploying](#building-and-deploying).
 
 ```bash
-$ npm run setup
-$ npm run update
+$ npm run setup -- dev
+$ npm run update -- dev
 ```
 
 1. The `setup` NPM script will create the CloudFormation deployment bucket.
