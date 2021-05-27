@@ -24,7 +24,6 @@ const GetOrCreateImage = async event => {
       }
     }
   } = event.Records[0]
-  console.log('\n* event:', JSON.stringify(event, 0, 2))
   if (!['403', '404'].includes(status)) return response
 
   let { nextExtension, height, sourceImage, width } = parse(querystring)
