@@ -1,6 +1,8 @@
 # Image Flex
 A robust, secure image resizing service easily deployable to resize, optimize, and cache images on "the edge," on the fly, built on AWS Serverless technologies. Served by [CloudFront](https://aws.amazon.com/cloudfront/) via an [Origin Access Identity](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html). Executed on [Lambda@Edge](https://aws.amazon.com/lambda/edge/). Backed by [S3](https://aws.amazon.com/s3/). Protected by [AWS WAF](https://docs.aws.amazon.com/waf/latest/developerguide/web-acl.html). Provisioned via [CloudFormation](https://aws.amazon.com/cloudformation/). Built and deployed by the [Serverless Application Model (SAM)](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html) CLI. 
 
+![Image Flex system diagram](/diagram.png?raw=true "Systen Diagram")
+
 Resized images will be converted to [WebP](https://developers.google.com/speed/webp) format if the image request includes a valid `Accepts` header with "webp" listed in its value.
 
 The original inspiration for this application came from [this AWS blog post](https://aws.amazon.com/blogs/networking-and-content-delivery/resizing-images-with-amazon-cloudfront-lambdaedge-aws-cdn-blog/) I read a few years back. The article intended to provide a [semi-]working example, which was far from being suitable for a production environment.
@@ -77,8 +79,6 @@ https://[Distro ID].cloudfront.net/myimage.png?w=400&h=400
 ```
 
 ## How It Works
-
-![Alt text](/diagram.png?raw=true "Systen Diagram")
 
 The fully actioned (built, packaged, and deployed) [SAM template](/template.yaml) will result in a CloudFormation *stack* of resources being created across numerous AWS services (see the following table). 
 
