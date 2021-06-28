@@ -48,7 +48,7 @@ Object {
     ],
   },
   "method": "GET",
-  "querystring": "nextExtension=webp&height=&sourceImage=ghosted.jpg&width=300",
+  "querystring": "nextExtension=webp&height=&sourceImage=/ghosted.jpg&width=300",
   "uri": "/300/ghosted.webp",
 }
 `;

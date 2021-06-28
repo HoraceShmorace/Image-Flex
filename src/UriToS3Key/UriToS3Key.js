@@ -30,7 +30,7 @@ const UriToS3Key = event => {
   request.querystring = [
     `nextExtension=${nextExtension}`,
     `height=${height}`,
-    `sourceImage=${prefix}${imageName}.${prevExtension}`,
+    `sourceImage=${prefix}/${imageName}.${prevExtension}`,
     `width=${width}`
   ].join('&')
 
