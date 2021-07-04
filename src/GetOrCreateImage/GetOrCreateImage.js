@@ -48,12 +48,15 @@ const GetOrCreateImage = async event => {
       try {
         resizedImage = Sharp(imageObj.Body)
           .resize(width, height)
-          .toFormat(nextExtension)
+          .toFormat(nextExtension, {
+            lossless: true,
+            quality: 100
+          })
           .toBuffer()
           .catch(error => {
             throw new Error(`${errorMessage} ${error}`)
           })
-      } catch(err) {
+      } catch(error) {
         throw new Error(`${errorMessage} ${error}`)
       }
       return resizedImage
