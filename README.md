@@ -13,8 +13,8 @@ Note that this is a production-ready application, not a tutorial. This document 
 ## Requirements
 1. [Node.js v12.x](https://nodejs.org/en/blog/release/v12.22.1/) (this is the latest version supported by [Lambda@Edge](https://aws.amazon.com/lambda/edge/)). It's recommended to use [Node Version Manager](https://github.com/nvm-sh/nvm), which allows one system to install and switch between multiple Node.js versions.
 1. An [AWS account](https://aws.amazon.com/account/sign-up).
-1. The [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html)
-1. The [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install-mac.html)
+1. The [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html).
+1. The [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install-mac.html).
 
 Be sure to configure the AWS CLI:
 ```bash
@@ -202,7 +202,7 @@ Aliases:
 ```
 Be sure to replace `YOUR CNAME HERE` with your actual CNAME, and ensure that CNAME is created in Route 53 (or another DNS provider).
 
-### 2. Add an your own SSL certificate for HTTPS
+### 2. Add your own SSL certificate for HTTPS
 By default, this application will use the default CloudFront certificate for SSL/TLS. However, if you configure an Alias per the instructions above, it is required that you use your own certificate for SSL/TLS. In the [SAM template](/template.yaml), under the `Distribution` resource, make the following changes to configure the distribution to use your own certificate stored in [Certificate Manager](https://aws.amazon.com/certificate-manager/).
 
 Change...
