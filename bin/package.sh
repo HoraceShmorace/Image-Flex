@@ -3,4 +3,9 @@
 
 . $(dirname "$0")/meta.sh
 echo "Packaging artifacts to ${DeployBucket}"
-sam package --template-file .aws-sam/build/template.yaml --s3-bucket ${DeployBucket} --output-template-file .aws-sam/build/template-packaged.yaml
+
+sam package \
+  --region ${REGION} \
+  --s3-bucket ${DeployBucket} \
+  --template-file .aws-sam/build/template.yaml \
+  --output-template-file .aws-sam/build/template-packaged.yaml

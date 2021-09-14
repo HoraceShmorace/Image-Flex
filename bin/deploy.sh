@@ -6,7 +6,7 @@ echo "Deploying stack: ${Stackname}"
 echo
 
 sam deploy \
-  --template-file .aws-sam/build/template-packaged.yaml \
+  --region ${REGION} \
   --stack-name ${Stackname} \
-  --region us-east-1 \
+  --template-file .aws-sam/build/template-packaged.yaml \
   --capabilities CAPABILITY_IAM
