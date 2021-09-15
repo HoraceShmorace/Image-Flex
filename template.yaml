@@ -21,7 +21,7 @@ Resources:
         - arn:aws:iam::aws:policy/AWSXrayFullAccess
       Policies:
         -
-          PolicyName: !Sub ${AWS::StackName}-images-Lambda-S3 
+          PolicyName: !Sub ${AWS::StackName}-images-Lambda-S3
           PolicyDocument:
             Version: 2012-10-17
             Statement:
@@ -31,7 +31,6 @@ Resources:
               Resource:
                 - !Sub arn:aws:s3:::${AWS::StackName}-images
                 - !Sub arn:aws:s3:::${AWS::StackName}-images/*
-
 
   OriginAccessId:
     Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
@@ -62,7 +61,7 @@ Resources:
     Properties:
       Bucket: !Ref ImageBucket
       PolicyDocument:
-        Id:  !Sub ${AWS::StackName}-images-policy 
+        Id:  !Sub ${AWS::StackName}-images-policy
         Version: 2012-10-17
         Statement:
           -
@@ -72,7 +71,6 @@ Resources:
             Resource: !Sub arn:aws:s3:::${AWS::StackName}-images/*
             Principal:
               AWS: !Sub arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${OriginAccessId}
-
 
   CloudFrontLoggingBucket:
     Type: AWS::S3::Bucket
@@ -95,7 +93,7 @@ Resources:
       MemorySize: 128
       Timeout: 1
       Role: !GetAtt EdgeLambdaRole.Arn
-    
+
   GetOrCreateImageFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -114,7 +112,7 @@ Resources:
       DefaultAction:
         Allow: {}
       Name: !Sub ${AWS::StackName}-WebAcl
-      Rules: 
+      Rules:
         - Name: AWS-AWSManagedRulesCommonRuleSet
           Priority: 0
           OverrideAction:
@@ -146,7 +144,7 @@ Resources:
         ViewerCertificate:
           CloudFrontDefaultCertificate: true
           # Replace the above line with the following to indicate your own certificate to use for HTTPS
-          # CloudFrontDefaultCertificate: true
+          # CloudFrontDefaultCertificate: false
           # AcmCertificateArn: YOUR CERTIFICATE MANAGER ARN HERE
           # SslSupportMethod: sni-only
 
@@ -192,7 +190,7 @@ Outputs:
   UriToS3KeyFunction:
     Value: !Ref UriToS3KeyFunction
     Description: Lambda function for the Cloudfront viewer-request event.
-  
+
   GetOrCreateImageFunction:
     Value: !Ref GetOrCreateImageFunction
     Description: Lambda function for the Cloudfront origin-response event.
