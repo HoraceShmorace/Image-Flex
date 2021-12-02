@@ -1,7 +1,7 @@
 #!/bin/bash
 #meta.sh
 
-if [ "$2" != "bash" ]
+if [ "$2" != "bash" ] && [ "$2" != "" ]
   then ENV=$2
   echo "ENV argument passed. Using that value: ${2}"
 elif [ $IF_ENV ]
@@ -9,7 +9,21 @@ elif [ $IF_ENV ]
   echo "IF_ENV environment variable specified. Using that value: ${IF_ENV}"
 else
   ENV=dev
-  echo "No env specified. Using default value: dev"
+  echo "No env specified. Using default value: ${ENV}"
+fi
+
+if [ "$3" != "bash" ] && [ "$3" != "" ]
+  then REGION=$3
+  echo "REGION argument passed. Using that value: ${3}"
+elif [ $IF_REGION ]
+  then REGION=$IF_REGION
+  echo "IF_REGION environment variable specified. Using that value: ${IF_REGION}"
+elif [ $AWS_REGION ]
+  then REGION=$AWS_REGION
+  echo "AWS_REGION environment variable is set. Using that value: ${AWS_REGION}"
+else
+  REGION=us-east-1
+  echo "No region specified. Using default value: ${REGION}"
 fi
 
 Application=$1
