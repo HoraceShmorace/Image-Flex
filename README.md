@@ -263,6 +263,16 @@ ViewerCertificate:
 ```
 Be sure to replace `YOUR CERTIFICATE MANAGER ARN HERE` with the ARN of your certificate.
 
+### 3. Customize your image conversion settings
+Image Flex uses [Sharp](https://sharp.pixelplumbing.com/) to resize, convert, and optimize images. When the image is converted to webp (via the `Sharp.toFormat` method), certain options can be set to effect the output quality of the resulting webp image. By default, Image Flex only sets the output quality percentage in the [GetOrCreateImage Lambda function](src/GetOrCreateImage/GetOrCreateImage.js#L55):
+
+```
+quality: 95
+```
+This results in a webp with a max quality of 95%.
+
+See [the official Sharp documentation](https://sharp.pixelplumbing.com/api-output#webp) to learn all options that may be set.
+
 ## License
 Copyright 2021 Horace Nelson.
 
