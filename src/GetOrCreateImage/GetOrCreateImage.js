@@ -49,8 +49,10 @@ const GetOrCreateImage = async event => {
         resizedImage = Sharp(imageObj.Body)
           .resize(width, height)
           .toFormat(nextExtension, {
-            lossless: true,
-            quality: 100
+            /**
+             * @see https://sharp.pixelplumbing.com/api-output#webp for a list of options.
+             */
+            quality: 95
           })
           .toBuffer()
           .catch(error => {
