@@ -26,6 +26,7 @@ const GetOrCreateImage = async event => {
   } = event.Records[0]
 
   if (!['403', '404'].includes(status)) return response
+  if (!querystring) return response
 
   let { nextExtension, height, sourceImage, width } = parse(querystring)
   const [bucket] = domainName.match(/.+(?=\.s3\.amazonaws\.com)/i)
