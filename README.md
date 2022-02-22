@@ -7,8 +7,8 @@ Resized images will be converted to [WebP](https://developers.google.com/speed/w
 
 The original inspiration for this application came from [this AWS blog post](https://aws.amazon.com/blogs/networking-and-content-delivery/resizing-images-with-amazon-cloudfront-lambdaedge-aws-cdn-blog/) I read a few years back. The article intended to provide a [semi-]working example, which was far from being suitable for a production environment.
 
-## Important
-While Image-Flex allows you to indicate a region to use other than `us-east-1`, CloudFront requires `us-east-1`. Until I figure out a workaround, don't attempt to deploy in any other region.
+## IMPORTANT!
+While Image-Flex allows you to indicate a region to use other than `us-east-1`, CloudFront requires `us-east-1`. **Until I figure out a workaround, don't attempt to deploy in any other region that `us-east-1`.**
 
 ## Prerequisites
 Note that this is a production-ready application, not a tutorial. This document assumes you have some working knowledge of AWS, [CloudFormation](https://aws.amazon.com/cloudformation/) and the [Serverless Application Model (SAM)](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html), [AWS Lambda](https://aws.amazon.com/lambda/), [S3](https://aws.amazon.com/s3/), [Node.js](https://nodejs.org/), [NPM](https://www.npmjs.com/), and JavaScript.
@@ -277,6 +277,6 @@ This results in a webp with a max quality of 95%.
 See [the official Sharp documentation](https://sharp.pixelplumbing.com/api-output#webp) to learn all options that may be set.
 
 ## License
-Copyright 2021 Horace Nelson.
+Copyright 2021-2022 Horace Nelson.
 
 Available for free personal or commercial use only under [Creative Commons: Attribution-ShareAlike](https://creativecommons.org/licenses/by-sa/4.0/) license.
