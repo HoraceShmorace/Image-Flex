@@ -1,3 +1,3 @@
-Copyright 2021 Horace Nelson.
+Copyright 2021-2022 Horace Nelson.
 
 Available for free personal or commercial use only under "Creative Commons: Attribution-ShareAlike" license. See https://creativecommons.org/licenses/by-sa/4.0/.
