@@ -37,7 +37,7 @@ $ npm run update -- dev
 1. The `setup` NPM script will create the CloudFormation deployment bucket. You only need to run this command once per execution environment.
 1. The `update` NPM script will build, package, and deploy the application stack to CloudFormation using the AWS SAM CLI. When the script is finished, it will print an "Outputs" section that includes the "DistributionDomain," which is the URL for your CloudFront distribution (e.g., `[Distro ID].cloudfront.net`). Note this value for later, as it is how you will access the service.
 
-> These scripts optionally accept an argumens to indicate the execution environment. If you don't set the execution environment, the default of "dev" will be used. For info on setting the execution environment, see [Setting the execution environment](https://github.com/HoraceShmorace/Image-Flex#information_source-setting-the-execution-environment).
+> These scripts optionally accept an argument to indicate the execution environment. If you don't set the execution environment, the default of "dev" will be used. For info on setting the execution environment, see [Setting the execution environment](https://github.com/HoraceShmorace/Image-Flex#information_source-setting-the-execution-environment).
 
 ***Example:***
 
