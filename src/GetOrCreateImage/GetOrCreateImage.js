@@ -47,7 +47,7 @@ const GetOrCreateImage = async event => {
       // Required try/catch because Sharp.catch() doesn't seem to actually catch anything. 
       try {
         resizedImage = Sharp(imageObj.Body, { animated: true })
-          .resize(width, height)
+          .resize(width, height, {fit: 'inside'})
           .toFormat(nextExtension, {
             /**
              * @see https://sharp.pixelplumbing.com/api-output#webp for a list of options.
