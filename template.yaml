@@ -41,6 +41,8 @@ Resources:
   ImageBucket:
     Type: AWS::S3::Bucket
     Properties:
+      VersioningConfiguration:
+        Status: Enabled
       BucketName: !Sub ${AWS::StackName}-images
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
@@ -64,9 +66,9 @@ Resources:
         Id:  !Sub ${AWS::StackName}-images-policy
         Version: 2012-10-17
         Statement:
-          -
-            Action:
+          - Action:
               - s3:GetObject
+              - s3:GetObjectVersion
             Effect: Allow
             Resource: !Sub arn:aws:s3:::${AWS::StackName}-images/*
             Principal:
@@ -106,33 +108,6 @@ Resources:
       Timeout: 30
       Role: !GetAtt EdgeLambdaRole.Arn
 
-  WebACL:
-    Type: AWS::WAFv2::WebACL
-    Properties:
-      DefaultAction:
-        Allow: {}
-      Name: !Sub ${AWS::StackName}-WebAcl
-      Rules:
-        - Name: AWS-AWSManagedRulesCommonRuleSet
-          Priority: 0
-          OverrideAction:
-            None: {}
-          VisibilityConfig:
-            SampledRequestsEnabled: true
-            CloudWatchMetricsEnabled: true
-            MetricName: !Sub ${AWS::StackName}-MetricForAMRCRS
-          Statement:
-            ManagedRuleGroupStatement:
-              VendorName: AWS
-              Name: AWSManagedRulesCommonRuleSet
-              ExcludedRules:
-                - Name: NoUserAgent_HEADER
-      Scope: CLOUDFRONT
-      VisibilityConfig:
-        SampledRequestsEnabled: true
-        CloudWatchMetricsEnabled: true
-        MetricName: !Sub ${AWS::StackName}-WebAcl
-
   Distribution:
     Type: AWS::CloudFront::Distribution
     Properties:
@@ -156,6 +131,7 @@ Resources:
             QueryStringCacheKeys:
               - w
               - h
+              - versionId
             Cookies:
               Forward: none
             Headers:
@@ -180,7 +156,6 @@ Resources:
             S3OriginConfig:
               OriginAccessIdentity: !Sub origin-access-identity/cloudfront/${OriginAccessId}
         PriceClass: PriceClass_All
-        WebACLId: !GetAtt WebACL.Arn
 
 Outputs:
   DistributionDomain:
