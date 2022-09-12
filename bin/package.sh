@@ -8,4 +8,5 @@ sam package \
   --region ${REGION} \
   --s3-bucket ${DeployBucket} \
   --template-file .aws-sam/build/template.yaml \
-  --output-template-file .aws-sam/build/template-packaged.yaml
+  --output-template-file .aws-sam/build/template-packaged.yaml \
+  --profile ${Profile}

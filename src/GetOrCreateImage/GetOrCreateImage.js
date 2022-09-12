@@ -27,7 +27,7 @@ const GetOrCreateImage = async event => {
 
   if (!['403', '404'].includes(status)) return response
 
-  let { nextExtension, height, sourceImage, width } = parse(querystring)
+  let { nextExtension, height, sourceImage, width, versionId} = parse(querystring)
   const [bucket] = domainName.match(/.+(?=\.s3\.amazonaws\.com)/i)
   const contentType = 'image/' + nextExtension
   const key = uri.replace(/^\//, '')
@@ -37,12 +37,12 @@ const GetOrCreateImage = async event => {
   width = parseInt(width, 10)
 
   if (!width) return response
-
-  return S3.getObject({ Bucket: bucket, Key: sourceKey })
+  
+  return S3.getObject({ Bucket: bucket, Key: sourceKey, VersionId: versionId})
     .promise()
     .then(imageObj => {
       let resizedImage
-      const errorMessage = `Error while resizing "${sourceKey}" to "${key}":`
+      const errorMessage = `Error while resizing "${sourceKey}", v "${versionId}" to "${key}":`
 
       // Required try/catch because Sharp.catch() doesn't seem to actually catch anything. 
       try {

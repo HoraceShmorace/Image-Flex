@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "A robust, secure, and easily deployable image resizing service that scales, optimizes, and caches images on \"the edge,\" on the fly. Served by CloudFront via an Origin Access Identity. Executed on Lambda@Edge. Backed by S3. Protected by AWS WAF. Provisioned via CloudFormation. Built and deployed by the Serverless Application Model (SAM) CLI.",
   "scripts": {
-    "setup": "bash -c './bin/setup.sh $npm_package_name $0 $1'",
-    "meta": "bash -c './bin/meta.sh $npm_package_name $0 $1 $2'",
+    "setup": "bash -c './bin/setup.sh $npm_package_name $0 $1 $2'",
+    "meta": "bash -c './bin/meta.sh $npm_package_name $0 $1 $2 $3'",
     "build": "bash -c './bin/build.sh'",
-    "package": "bash -c './bin/package.sh $npm_package_name $0 $1'",
-    "deploy": "bash -c './bin/deploy.sh $npm_package_name $0 $1 $2'",
-    "update": "bash -c './bin/update.sh $npm_package_name $0 $1 $2'",
+    "package": "bash -c './bin/package.sh $npm_package_name $0 $1 $2 $3'",
+    "deploy": "bash -c './bin/deploy.sh $npm_package_name $0 $1 $2 $3'",
+    "update": "bash -c './bin/update.sh $npm_package_name $0 $1 $2 $3'",
     "lint": "standardx --fix \"functions/**/*.js\"",
     "test": "jest"
   },

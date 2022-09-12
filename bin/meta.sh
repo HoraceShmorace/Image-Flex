@@ -26,7 +26,15 @@ else
   echo "No region specified. Using default value: ${REGION}"
 fi
 
+if [ "$4" != "bash" ] && [ "$4" != "" ]
+  then PROFILE=$4
+  echo "PROFILE argument passed. Using that value: ${4}"
+else
+  echo "No PROFILE specified. Using default value:}"
+fi
+
 Application=$1
-Account=$(aws sts get-caller-identity | python3 -c "import sys, json; print(json.load(sys.stdin)['Account'])")
+Account=$(aws sts get-caller-identity --profile $4| python3 -c "import sys, json; print(json.load(sys.stdin)['Account'])")
 Stackname=${Application}-${Account}-${ENV}
 DeployBucket=${Stackname}-deploy
+Profile=${PROFILE}
