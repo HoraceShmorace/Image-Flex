@@ -102,7 +102,7 @@ Resources:
       CodeUri: src/GetOrCreateImage/
       Handler: index.handler
       Runtime: nodejs12.x
-      MemorySize: 256
+      MemorySize: 1024
       Timeout: 30
       Role: !GetAtt EdgeLambdaRole.Arn
 
