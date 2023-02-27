@@ -7,6 +7,9 @@ Resized images will be converted to [WebP](https://developers.google.com/speed/w
 
 The original inspiration for this application came from [this AWS blog post](https://aws.amazon.com/blogs/networking-and-content-delivery/resizing-images-with-amazon-cloudfront-lambdaedge-aws-cdn-blog/) I read a few years back. The article intended to provide a [semi-]working example, which was far from being suitable for a production environment.
 
+## IMPORTANT!
+While Image-Flex allows you to indicate a region to use other than `us-east-1`, CloudFront requires `us-east-1`. **Until I figure out a workaround, don't attempt to deploy in any region other than `us-east-1`.**
+
 ## Prerequisites
 Note that this is a production-ready application, not a tutorial. This document assumes you have some working knowledge of AWS, [CloudFormation](https://aws.amazon.com/cloudformation/) and the [Serverless Application Model (SAM)](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html), [AWS Lambda](https://aws.amazon.com/lambda/), [S3](https://aws.amazon.com/s3/), [Node.js](https://nodejs.org/), [NPM](https://www.npmjs.com/), and JavaScript.
 
@@ -34,9 +37,7 @@ $ npm run update -- dev
 1. The `setup` NPM script will create the CloudFormation deployment bucket. You only need to run this command once per execution environment.
 1. The `update` NPM script will build, package, and deploy the application stack to CloudFormation using the AWS SAM CLI. When the script is finished, it will print an "Outputs" section that includes the "DistributionDomain," which is the URL for your CloudFront distribution (e.g., `[Distro ID].cloudfront.net`). Note this value for later, as it is how you will access the service.
 
-> These scripts optionally accept two arguments:
-> 1. The first is a value to indicate the execution environment. If you don't set the execution environment, the default of "dev" will be used. For info on setting the execution environment, see [Setting the execution environment](https://github.com/HoraceShmorace/Image-Flex#information_source-setting-the-execution-environment).
-> 2. The second is a value to indicate an AWS region in which your stack should be created. If you don't set the region, the default of "us-east-1" will be used. See [Setting the AWS region](https://github.com/HoraceShmorace/Image-Flex#information_source-setting-the-aws-region).
+> These scripts optionally accept an argument to indicate the execution environment. If you don't set the execution environment, the default of "dev" will be used. For info on setting the execution environment, see [Setting the execution environment](https://github.com/HoraceShmorace/Image-Flex#information_source-setting-the-execution-environment).
 
 ***Example:***
 
@@ -44,7 +45,6 @@ $ npm run update -- dev
 $ npm run setup -- staging
 $ npm run update -- staging
 ```
-
 
 ## Usage
 
@@ -145,58 +145,16 @@ Examples:
 * `$ npm run update -- prod`
 * `$ npm run update -- bills-test`
 
-
-### :information_source: Setting the AWS region
-CloudFormation will create a resources belonging to a stack in the us-east-1 region by default. There are three ways to override this.
-
-**To set the AWS region:**
-1. The tooling will respect AWS's `AWS_REGION` environment variable.
-2. Set the `IF_REGION` environment variable.
-3. Pass the `[-- region]` argument when calling the NPM scripts.
-> Note that since the command-line arguments aren't named arguments and therefore must be passed in a certain order, you can only pass a value for the `region` argument if you also pass a value for the `env` argument.
-
-> Note that the `IF_REGION` environment variable takes precedence over the `AWS_REGION` environment variable, and the command line argument will take precedence over both.
-
-#### via environment variable
-You can set the execution environment for all scripts by setting either AWS's `AWS_REGION` environment variable, or Image Flex's `IF_REGION` environment variable.
-
-***Example:***
-For MacOS:
-```bash
-# This will set the region for the entire AWS CLI.
-export AWS_REGION=us-east-2
-```
-or
-```bash
-# This will set the region for the entire AWS CLI.
-export IF_REGION=us-east-2
-```
-
-For Windows (development is untested on Windows):
-```bash
-setx AWS_REGION "us-east-2"
-#or
-setx IF_REGION "us-east-2"
-```
-
-#### via the command line
-Alternately, the `setup`, `package`, `deploy`, and `update` scripts accept an optional second command line argument to indicate the AWS region in which to create your resources.
-
-Examples:
-* `$ npm run update -- dev us-east-2`
-* `$ npm run update -- prod us-east-2`
-* `$ npm run update -- bills-test us-east-2`
-
 ### NPM Scripts
 ### 1. Setup
 ```bash
-$ npm run setup [-- env] [-- region]
+$ npm run setup [-- env]
 ```
 Creates the CloudFormation deployment S3 bucket. SAM/CloudFormation will upload packaged build artifacts to this bucket to later be deployed. You only need to run this command once per execution environment.
 
 ### 2. Update
 ```bash
-$ npm run update [-- env] [-- region]
+$ npm run update [-- env]
 ```
 A convenience script that runs `npm run build`, `npm run package`, and `npm run deploy` in order.
 
@@ -210,13 +168,13 @@ Installs and builds the dependencies for the ***GetOrCreateImage*** Lambda funct
 
 ### 4. Package
 ```bash
-$ npm run package [-- env] [-- region]
+$ npm run package [-- env]
 ```
 Packages (zips) the functions and built dependencies, and uploads the artifacts to the deployment bucket.
 
 ### 5. Deploy
 ```bash
-$ npm run deploy [-- env] [-- region]
+$ npm run deploy [-- env]
 ```
 Deploys the application as defined by the SAM template, creating or updating the resources.
 
@@ -274,6 +232,6 @@ This results in a webp with a max quality of 95%.
 See [the official Sharp documentation](https://sharp.pixelplumbing.com/api-output#webp) to learn all options that may be set.
 
 ## License
-Copyright 2021 Horace Nelson.
+Copyright 2021-2023 Horace Nelson.
 
 Available for free personal or commercial use only under [Creative Commons: Attribution-ShareAlike](https://creativecommons.org/licenses/by-sa/4.0/) license.
