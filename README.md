@@ -232,6 +232,6 @@ This results in a webp with a max quality of 95%.
 See [the official Sharp documentation](https://sharp.pixelplumbing.com/api-output#webp) to learn all options that may be set.
 
 ## License
-Copyright 2021-2022 Horace Nelson.
+Copyright 2021-2023 Horace Nelson.
 
 Available for free personal or commercial use only under [Creative Commons: Attribution-ShareAlike](https://creativecommons.org/licenses/by-sa/4.0/) license.
