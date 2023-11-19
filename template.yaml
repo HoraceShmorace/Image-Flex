@@ -81,6 +81,9 @@ Resources:
         BlockPublicPolicy: Yes
         IgnorePublicAcls: Yes
         RestrictPublicBuckets: Yes
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: ObjectWriter         
 
   UriToS3KeyFunction:
     Type: AWS::Serverless::Function
@@ -89,7 +92,7 @@ Resources:
       AutoPublishAlias: live
       CodeUri: src/UriToS3Key/
       Handler: index.handler
-      Runtime: nodejs12.x
+      Runtime: nodejs16.x
       MemorySize: 128
       Timeout: 1
       Role: !GetAtt EdgeLambdaRole.Arn
@@ -101,7 +104,7 @@ Resources:
       AutoPublishAlias: live
       CodeUri: src/GetOrCreateImage/
       Handler: index.handler
-      Runtime: nodejs12.x
+      Runtime: nodejs16.x
       MemorySize: 256
       Timeout: 30
       Role: !GetAtt EdgeLambdaRole.Arn

@@ -14,10 +14,11 @@ While Image-Flex allows you to indicate a region to use other than `us-east-1`, 
 Note that this is a production-ready application, not a tutorial. This document assumes you have some working knowledge of AWS, [CloudFormation](https://aws.amazon.com/cloudformation/) and the [Serverless Application Model (SAM)](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html), [AWS Lambda](https://aws.amazon.com/lambda/), [S3](https://aws.amazon.com/s3/), [Node.js](https://nodejs.org/), [NPM](https://www.npmjs.com/), and JavaScript.
 
 ## Requirements
-1. [Node.js v12.x](https://nodejs.org/en/blog/release/v12.22.1/) (this is the latest version supported by [Lambda@Edge](https://aws.amazon.com/lambda/edge/)). It's recommended to use [Node Version Manager](https://github.com/nvm-sh/nvm), which allows one system to install and switch between multiple Node.js versions.
+1. [Node.js v16.x](https://nodejs.org/en/blog/release/v12.22.1/). It's recommended to use [Node Version Manager](https://github.com/nvm-sh/nvm), which allows one system to install and switch between multiple Node.js versions.
 1. An [AWS account](https://aws.amazon.com/account/sign-up).
 1. The [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html).
 1. The [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install-mac.html).
+1. [Docker](https://www.docker.com/) for SAM packaging.
 
 Be sure to configure the AWS CLI:
 ```bash
