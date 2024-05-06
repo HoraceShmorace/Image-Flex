@@ -15,6 +15,7 @@ Note that this is a production-ready application, not a tutorial. This document 
 
 ## Requirements
 1. [Node.js v16.x](https://nodejs.org/en/blog/release/v12.22.1/). It's recommended to use [Node Version Manager](https://github.com/nvm-sh/nvm), which allows one system to install and switch between multiple Node.js versions.
+1. [Docker](https://docs.docker.com/engine/install/)
 1. An [AWS account](https://aws.amazon.com/account/sign-up).
 1. The [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html).
 1. The [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install-mac.html).
@@ -233,6 +234,6 @@ This results in a webp with a max quality of 95%.
 See [the official Sharp documentation](https://sharp.pixelplumbing.com/api-output#webp) to learn all options that may be set.
 
 ## License
-Copyright 2021-2023 Horace Nelson.
+Copyright 2021-2024 Horace Nelson.
 
 Available for free personal or commercial use only under [Creative Commons: Attribution-ShareAlike](https://creativecommons.org/licenses/by-sa/4.0/) license.
