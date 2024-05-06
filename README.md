@@ -15,6 +15,7 @@ Note that this is a production-ready application, not a tutorial. This document 
 
 ## Requirements
 1. [Node.js v12.x](https://nodejs.org/en/blog/release/v12.22.1/) (this is the latest version supported by [Lambda@Edge](https://aws.amazon.com/lambda/edge/)). It's recommended to use [Node Version Manager](https://github.com/nvm-sh/nvm), which allows one system to install and switch between multiple Node.js versions.
+1. [Docker](https://docs.docker.com/engine/install/)
 1. An [AWS account](https://aws.amazon.com/account/sign-up).
 1. The [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html).
 1. The [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install-mac.html).
