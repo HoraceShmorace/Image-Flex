@@ -174,7 +174,7 @@ These are generally only called directly when debugging.
 ```bash
 $ npm run build
 ```
-Installs and builds the dependencies for the ***GetOrCreateImage*** Lambda function using a Docker container built on the lambci/lambda:build-nodejs12.x Docker container image.
+Installs and builds the dependencies for the ***GetOrCreateImage*** Lambda function using a Docker container built on the lambci/lambda:build-nodejs16.x Docker container image.
 
 ### 4. Package
 ```bash
