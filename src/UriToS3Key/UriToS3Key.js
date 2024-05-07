@@ -8,7 +8,7 @@ const GOOD_JPG_EXTENSION = 'jpeg'
 
 const UriToS3Key = event => {
   const { request, request: { headers, querystring, uri } } = event.Records[0].cf
-  const { h: height = '', w: width } = parse(querystring)
+  const { h: height = '', w: width, f:format = DEFAULT_EXTENSION } = parse(querystring)
 
   if (!width || isNaN(parseInt(width, 10))) return request
 
@@ -16,8 +16,8 @@ const UriToS3Key = event => {
   const acceptHeader = Array.isArray(headers.accept)
     ? headers.accept[0].value
     : ''
-  const nextExtension = acceptHeader.indexOf(DEFAULT_EXTENSION) !== -1
-    ? DEFAULT_EXTENSION
+  const nextExtension = acceptHeader.indexOf(format) !== -1
+    ? format
     : prevExtension === BAD_JPG_EXTENSION
       ? GOOD_JPG_EXTENSION
       : prevExtension.toLowerCase()
