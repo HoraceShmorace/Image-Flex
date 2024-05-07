@@ -3,7 +3,7 @@ A robust, secure, and easily deployable image resizing service that scales, opti
 
 ![Image Flex system diagram](/diagram.png?raw=true "Systen Diagram")
 
-Resized images will be converted to [WebP](https://developers.google.com/speed/webp) format if the image request includes a valid `Accepts` header with "webp" listed in its value.
+Resized images will be converted to [AVIF](https://caniuse.com/avif) format if the image request includes a valid `Accepts` header with "avif" listed in its value.
 
 The original inspiration for this application came from [this AWS blog post](https://aws.amazon.com/blogs/networking-and-content-delivery/resizing-images-with-amazon-cloudfront-lambdaedge-aws-cdn-blog/) I read a few years back. The article intended to provide a [semi-]working example, which was far from being suitable for a production environment.
 
@@ -71,15 +71,24 @@ Now suppose that you want to load that image at 400 pixels width, maintaining th
 ```
 https://[Distro ID].cloudfront.net/myimage.png?w=400
 ```
-This will return a resized and optimized image (WebP, if supported by the browser).
+This will return a resized and optimized image (AVIF, if supported by the browser).
 
 **h parameter**
 
-You can also add an `h` query string parameter to set the height. Note that changing the aspect ratio will clip the image (like `object-fit: cover` in CSS), not stretch or squash the image.
+Additionally, you can add an `h` query string parameter to set the height. Note that changing the aspect ratio will clip the image (like `object-fit: cover` in CSS), not stretch or squash the image.
 
 <sub>400x400 pixels, clipped</sub>
 ```
 https://[Distro ID].cloudfront.net/myimage.png?w=400&h=400
+```
+#### Setting the image format
+**f parameter**
+
+The optional `f` query string parameter allows you to specify the image format by providing a target file extension. If not specified, `avif` will be used by default. See [the Sharp documentation](https://sharp.pixelplumbing.com/api-output#toformat) for a list of supported image types.
+
+<sub>Generate a webp image</sub>
+```
+https://[Distro ID].cloudfront.net/myimage.png?f=webp
 ```
 
 ## How It Works
@@ -97,7 +106,7 @@ The fully actioned (built, packaged, and deployed) [SAM template](/template.yaml
 | [Logging S3 Bucket](https://aws.amazon.com/s3) | `[Stack Name]`-cflogs | Stores the compressed CloudFront logs. |
 | [Hosting S3 Bucket](https://aws.amazon.com/s3) | `[Stack Name]`-images | Serves as the CloudFront origin, storing the original image assets in the root, and resized image assets within subdirectories by width. |
 | [Origin Access Identity](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html) | N/A | Restricts direct access to the S3 bucket content, only allowing the CloudFront distribution to read and serve the image files.  |
-| [Viewer Request Lambda@Edge](https://docs.aws.amazon.com/lambda/latest/dg/lambda-edge.html) | `[Stack Name]`-UriToS3Key | Responds to the "viewer request" CloudFront trigger, and will reformat the requested URI into a valid S3 key expected by the S3 bucket. Example: **/image.png?w=300** `=>` **/300/image.webp** |
+| [Viewer Request Lambda@Edge](https://docs.aws.amazon.com/lambda/latest/dg/lambda-edge.html) | `[Stack Name]`-UriToS3Key | Responds to the "viewer request" CloudFront trigger, and will reformat the requested URI into a valid S3 key expected by the S3 bucket. Example: **/image.png?w=300** `=>` **/300/image.avif** |
 | [Origin Response Lambda@Edge](https://docs.aws.amazon.com/lambda/latest/dg/lambda-edge.html) | `[Stack Name]`-GetOrCreateImage | Responds to the "origin response" CloudFront trigger, and: <ol><li>If the requested image in the requested size is found, return it.</li><li>Otherwise, if the requested image in the requested size is not found, attempt to create an image in the requested size from the base image.</li><li>Otherwise, if the base image is not found, return *HTTP status 404: Not Found*.</li></ol> |
 
 ## Building and Deploying
@@ -224,14 +233,14 @@ ViewerCertificate:
 Be sure to replace `YOUR CERTIFICATE MANAGER ARN HERE` with the ARN of your certificate.
 
 ### 3. Customize your image conversion settings
-Image Flex uses [Sharp](https://sharp.pixelplumbing.com/) to resize, convert, and optimize images. When the image is converted to webp (via the `Sharp.toFormat` method), certain options can be set to effect the output quality of the resulting webp image. By default, Image Flex only sets the output quality percentage in the [GetOrCreateImage Lambda function](src/GetOrCreateImage/GetOrCreateImage.js#L55):
+Image Flex uses [Sharp](https://sharp.pixelplumbing.com/) to resize, convert, and optimize images. When the image is formatted (via the `Sharp.toFormat` method), certain options can be set to effect the output quality of the resulting  image of a specific format. By default, Image Flex only sets the output quality percentage in the [GetOrCreateImage Lambda function](src/GetOrCreateImage/GetOrCreateImage.js#L55) (but no other options):
 
 ```
 quality: 95
 ```
-This results in a webp with a max quality of 95%.
+This results in a avif with a max quality of 95%.
 
-See [the official Sharp documentation](https://sharp.pixelplumbing.com/api-output#webp) to learn all options that may be set.
+See [the official Sharp documentation](https://sharp.pixelplumbing.com/api-output) to learn all options that may be set.
 
 ## License
 Copyright 2021-2024 Horace Nelson.

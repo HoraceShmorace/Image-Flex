@@ -159,6 +159,7 @@ Resources:
             QueryStringCacheKeys:
               - w
               - h
+              - f
             Cookies:
               Forward: none
             Headers:
