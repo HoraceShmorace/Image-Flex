@@ -62,7 +62,7 @@ https://[Distro ID].cloudfront.net/myimage.png
 ```
 Using this full-resolution, unoptimized image would have negative performance impacts.
 
-#### Resizing your images
+### Resizing your images
 **w parameter**
 
 Now suppose that you want to load that image at 400 pixels width, maintaining the aspect ratio. It's as easy as adding the `?w=400` query string parameter.
@@ -81,7 +81,7 @@ Additionally, you can add an `h` query string parameter to set the height. Note 
 ```
 https://[Distro ID].cloudfront.net/myimage.png?w=400&h=400
 ```
-#### Setting the image format
+### Setting the image format
 **f parameter**
 
 The optional `f` query string parameter allows you to specify the image format by providing a target file extension. If not specified, `avif` will be used by default. See [the Sharp documentation](https://sharp.pixelplumbing.com/api-output#toformat) for a list of supported image types.
