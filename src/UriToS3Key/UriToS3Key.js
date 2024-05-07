@@ -2,7 +2,7 @@
 
 const { parse } = require('querystring')
 
-const DEFAULT_EXTENSION = 'webp'
+const DEFAULT_EXTENSION = 'avif'
 const BAD_JPG_EXTENSION = 'jpg'
 const GOOD_JPG_EXTENSION = 'jpeg'
 
