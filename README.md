@@ -2,7 +2,7 @@
 
 [![Dev](https://img.shields.io/badge/dev.to-0A0A0A?style=for-the-badge&logo=devdotto&logoColor=white)](https://dev.to/horaceshmorace)
 [![Medium](https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white)](https://medium.com/@horaceshmorace)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/horaceshmorace)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/horacenelson)
 
 # Image Flex
 A robust, secure, and easily deployable image resizing service that scales, optimizes, and caches images on "the edge," on the fly, built on AWS Serverless technologies. Served by [CloudFront](https://aws.amazon.com/cloudfront/) via an [Origin Access Identity](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html). Executed on [Lambda@Edge](https://aws.amazon.com/lambda/edge/). Backed by [S3](https://aws.amazon.com/s3/). Protected by [AWS WAF](https://docs.aws.amazon.com/waf/latest/developerguide/web-acl.html). Provisioned via [CloudFormation](https://aws.amazon.com/cloudformation/). Built and deployed by the [Serverless Application Model (SAM)](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html) CLI. 
