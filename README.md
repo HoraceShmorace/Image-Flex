@@ -123,7 +123,10 @@ The following NPM scripts are available:
 1. deploy
 1. update
 
-Each NPM script calls a shell script of the same name in the /bin directory.
+💡 Each NPM script calls a Bash script of the same name in the /bin directory. Be sure to set `execute` permissions on this directory:
+```bash
+chmod -R 755 ./bin
+```
 
 ### :information_source: Setting the execution environment
 These scripts (except for build) all run within the context of an execution environment (e.g., dev, staging, prod, etc.). This will be appended to the name of your Image Flex-based application in CloudFormation.
