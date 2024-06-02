@@ -250,6 +250,10 @@ This results in a avif with a max quality of 95%.
 
 See [the official Sharp documentation](https://sharp.pixelplumbing.com/api-output) to learn all options that may be set.
 
+## TODO
+1. Fallback to WebP if AVIF is not supported. If WebP is also not supported, then keep the original file type.
+
+
 ## License
 Copyright 2021-2024 Horace Nelson.
 
