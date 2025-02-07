@@ -33,8 +33,9 @@ $ aws configure
 For detailed instructions on setting up the AWS CLI, read [the official AWS CLI documentation](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).
 
 ## Quickstart
+Just setup, deploy (update), and upload your source images to the S3 "hosting" bucket.
 
-Deploy the whole service in 2 commands! Run the `setup` and `update` NPM scripts, passing a name for your execution environment (see [Setting the execution environment](#information_source-setting-the-execution-environment)). For a detailed explanation of these commands, see the section [Building and Deploying](#building-and-deploying).
+Spin up an instance of the whole service in 2 commands! Run the `setup` and `update` NPM scripts, passing a name for your execution environment (see [Setting the execution environment](#information_source-setting-the-execution-environment)). For a detailed explanation of these commands, see the section [Building and Deploying](#building-and-deploying).
 
 ```bash
 $ npm run setup -- dev
@@ -109,7 +110,7 @@ The fully actioned (built, packaged, and deployed) [SAM template](/template.yaml
 | [AWS WAF Web ACL](https://docs.aws.amazon.com/waf/latest/developerguide/web-acl.html) | `[Stack Name]`-WebAcl | Defends the application from common web exploits by enforcing various access rules. This application implements AWS's [Core Rule Set](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html). |
 | [CloudFront Distribution](https://aws.amazon.com/cloudfront/) | N/A | Content Delivery Network (CDN) to cache images at locations closest to users. |
 | [Logging S3 Bucket](https://aws.amazon.com/s3) | `[Stack Name]`-cflogs | Stores the compressed CloudFront logs. |
-| [Hosting S3 Bucket](https://aws.amazon.com/s3) | `[Stack Name]`-images | Serves as the CloudFront origin, storing the original image assets in the root, and resized image assets within subdirectories by width. |
+| [Hosting S3 Bucket](https://aws.amazon.com/s3) | `[Stack Name]`-images | Upload your source images to this bucket. Serves as the CloudFront origin, storing the original image assets in the root, and resized image assets within subdirectories by width. |
 | [Origin Access Identity](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html) | N/A | Restricts direct access to the S3 bucket content, only allowing the CloudFront distribution to read and serve the image files.  |
 | [Viewer Request Lambda@Edge](https://docs.aws.amazon.com/lambda/latest/dg/lambda-edge.html) | `[Stack Name]`-UriToS3Key | Responds to the "viewer request" CloudFront trigger, and will reformat the requested URI into a valid S3 key expected by the S3 bucket. Example: **/image.png?w=300** `=>` **/300/image.avif** |
 | [Origin Response Lambda@Edge](https://docs.aws.amazon.com/lambda/latest/dg/lambda-edge.html) | `[Stack Name]`-GetOrCreateImage | Responds to the "origin response" CloudFront trigger, and: <ol><li>If the requested image in the requested size is found, return it.</li><li>Otherwise, if the requested image in the requested size is not found, attempt to create an image in the requested size from the base image.</li><li>Otherwise, if the base image is not found, return *HTTP status 404: Not Found*.</li></ol> |
