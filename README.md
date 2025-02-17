@@ -256,6 +256,6 @@ See [the official Sharp documentation](https://sharp.pixelplumbing.com/api-outpu
 
 
 ## License
-Copyright 2021-2024 Horace Nelson.
+Copyright 2021-2025 Horace Nelson.
 
 Available for free personal or commercial use only under [Creative Commons: Attribution-ShareAlike](https://creativecommons.org/licenses/by-sa/4.0/) license.
