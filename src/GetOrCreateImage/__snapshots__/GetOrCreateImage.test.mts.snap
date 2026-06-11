@@ -1,0 +1,205 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GetOrCreateImage passes the response through when status is 200 1`] = `
+{
+  "headers": {
+    "accept-ranges": [
+      {
+        "key": "Accept-Ranges",
+        "value": "bytes",
+      },
+    ],
+    "content-length": [
+      {
+        "key": "Content-Length",
+        "value": "2832",
+      },
+    ],
+    "content-type": [
+      {
+        "key": "Content-Type",
+        "value": "image/webp",
+      },
+    ],
+    "date": [
+      {
+        "key": "Date",
+        "value": "Sat, 08 May 2021 23:36:25 GMT",
+      },
+    ],
+    "etag": [
+      {
+        "key": "ETag",
+        "value": ""72a9ff667c12b7d156a696877fc4df89"",
+      },
+    ],
+    "last-modified": [
+      {
+        "key": "Last-Modified",
+        "value": "Sat, 08 May 2021 23:33:28 GMT",
+      },
+    ],
+    "server": [
+      {
+        "key": "Server",
+        "value": "AmazonS3",
+      },
+    ],
+    "x-amz-id-2": [
+      {
+        "key": "x-amz-id-2",
+        "value": "8q8ejgujau4YCUdFL3Ck1VPB6PsiEr/60RIZPUDxgOuzM/t/Dueg5SG1RdbKxnFKN7u+Yt8QkiI=",
+      },
+    ],
+    "x-amz-request-id": [
+      {
+        "key": "x-amz-request-id",
+        "value": "37THKNX0N2ADYKS3",
+      },
+    ],
+  },
+  "status": "200",
+  "statusDescription": "OK",
+}
+`;
+
+exports[`GetOrCreateImage resizes the source and returns the new image when status is 403 1`] = `
+{
+  "body": "cmVzaXplZC1pbWFnZS1ieXRlcw==",
+  "bodyEncoding": "base64",
+  "headers": {
+    "content-type": [
+      {
+        "key": "Content-Type",
+        "value": "image/webp",
+      },
+    ],
+    "date": [
+      {
+        "key": "Date",
+        "value": "Sat, 08 May 2021 23:33:25 GMT",
+      },
+    ],
+    "server": [
+      {
+        "key": "Server",
+        "value": "AmazonS3",
+      },
+    ],
+    "transfer-encoding": [
+      {
+        "key": "Transfer-Encoding",
+        "value": "chunked",
+      },
+    ],
+    "x-amz-id-2": [
+      {
+        "key": "x-amz-id-2",
+        "value": "QZlgZ/jWFGkc/pjNjijOkI1KjEH7avdgXL/2r5kuD7xMWFs6K3CSnHycKhzcVrN1chM0Hkq+IQM=",
+      },
+    ],
+    "x-amz-request-id": [
+      {
+        "key": "x-amz-request-id",
+        "value": "XPWJPWV1KP5CFDTS",
+      },
+    ],
+  },
+  "status": "200",
+  "statusDescription": "Found",
+}
+`;
+
+exports[`GetOrCreateImage resizes the source and returns the new image when status is 404 1`] = `
+{
+  "body": "cmVzaXplZC1pbWFnZS1ieXRlcw==",
+  "bodyEncoding": "base64",
+  "headers": {
+    "content-type": [
+      {
+        "key": "Content-Type",
+        "value": "image/webp",
+      },
+    ],
+    "date": [
+      {
+        "key": "Date",
+        "value": "Sat, 08 May 2021 23:33:25 GMT",
+      },
+    ],
+    "server": [
+      {
+        "key": "Server",
+        "value": "AmazonS3",
+      },
+    ],
+    "transfer-encoding": [
+      {
+        "key": "Transfer-Encoding",
+        "value": "chunked",
+      },
+    ],
+    "x-amz-id-2": [
+      {
+        "key": "x-amz-id-2",
+        "value": "QZlgZ/jWFGkc/pjNjijOkI1KjEH7avdgXL/2r5kuD7xMWFs6K3CSnHycKhzcVrN1chM0Hkq+IQM=",
+      },
+    ],
+    "x-amz-request-id": [
+      {
+        "key": "x-amz-request-id",
+        "value": "XPWJPWV1KP5CFDTS",
+      },
+    ],
+  },
+  "status": "200",
+  "statusDescription": "Found",
+}
+`;
+
+exports[`GetOrCreateImage returns a 404 when the source image cannot be fetched 1`] = `
+{
+  "body": "Error while getting source image object "bad-image.jpg": Error: NoSuchKey",
+  "bodyEncoding": "text",
+  "headers": {
+    "content-type": [
+      {
+        "key": "Content-Type",
+        "value": "text/plain",
+      },
+    ],
+    "date": [
+      {
+        "key": "Date",
+        "value": "Sat, 08 May 2021 23:38:02 GMT",
+      },
+    ],
+    "server": [
+      {
+        "key": "Server",
+        "value": "AmazonS3",
+      },
+    ],
+    "transfer-encoding": [
+      {
+        "key": "Transfer-Encoding",
+        "value": "chunked",
+      },
+    ],
+    "x-amz-id-2": [
+      {
+        "key": "x-amz-id-2",
+        "value": "4/PLziA+bP9cjFWVFErAyGd5NuOWY4E8XuE3DH0J913HugdpsWOCg+MsIAapBR8CXjT15VBywq8=",
+      },
+    ],
+    "x-amz-request-id": [
+      {
+        "key": "x-amz-request-id",
+        "value": "VWT4ZVZW6KVSZXK5",
+      },
+    ],
+  },
+  "status": "404",
+  "statusDescription": "Not Found",
+}
+`;

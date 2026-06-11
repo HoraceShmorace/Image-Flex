@@ -1,16 +1,14 @@
 {
   "name": "image-flex",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A robust, secure, and easily deployable image resizing service that scales, optimizes, and caches images on \"the edge,\" on the fly. Served by CloudFront via an Origin Access Identity. Executed on Lambda@Edge. Backed by S3. Protected by AWS WAF. Provisioned via CloudFormation. Built and deployed by the Serverless Application Model (SAM) CLI.",
+  "type": "module",
   "scripts": {
-    "setup": "bash -c './bin/setup.sh $npm_package_name $0 $1'",
-    "meta": "bash -c './bin/meta.sh $npm_package_name $0 $1 $2'",
+    "typecheck": "tsc --noEmit",
     "build": "bash -c './bin/build.sh'",
-    "package": "bash -c './bin/package.sh $npm_package_name $0 $1'",
     "deploy": "bash -c './bin/deploy.sh $npm_package_name $0 $1 $2'",
     "update": "bash -c './bin/update.sh $npm_package_name $0 $1 $2'",
-    "lint": "standardx --fix \"functions/**/*.js\"",
-    "test": "jest"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "author": "@HoraceShmorace",
   "license": "CC BY-SA",
@@ -18,22 +16,34 @@
     "url": "https://github.com/HoraceShmorace/Image-Flex.git"
   },
   "devDependencies": {
-    "husky": "^5.0.9",
-    "jest": "^26.6.3",
-    "standardx": "^5.0.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "npm run lint && npm test"
-    }
-  },
-  "eslintConfig": {
-    "env": {
-      "jest": true,
-      "node": true
-    }
+    "@aws-sdk/client-s3": "^3.658.0",
+    "@swc/core": "^1.7.0",
+    "@swc/jest": "^0.2.36",
+    "@types/aws-lambda": "^8.10.145",
+    "@types/jest": "^29.5.13",
+    "@types/node": "^22.7.0",
+    "aws-xray-sdk-core": "^3.10.0",
+    "esbuild": "^0.24.0",
+    "jest": "^29.7.0",
+    "sharp": "^0.33.5",
+    "typescript": "^5.6.0"
   },
   "jest": {
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "testEnvironment": "node",
+    "extensionsToTreatAsEsm": [".mts"],
+    "moduleFileExtensions": ["mts", "mjs", "ts", "js", "json"],
+    "testMatch": ["**/?(*.)+(spec|test).mts"],
+    "transform": {
+      "^.+\\.mts$": ["@swc/jest", {
+        "jsc": {
+          "parser": { "syntax": "typescript" },
+          "target": "es2022"
+        }
+      }]
+    },
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.mjs$": "$1"
+    }
   }
 }

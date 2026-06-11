@@ -1,14 +1,9 @@
 {
-  "name": "url-to-s3-key",
+  "name": "uri-to-s3-key",
   "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {},
-  "devDependencies": {},
-  "description": ""
+  "description": "Lambda@Edge viewer-request handler that rewrites a request URI to the resized-image S3 key.",
+  "license": "CC BY-SA",
+  "devDependencies": {
+    "esbuild": "^0.24.0"
+  }
 }

@@ -1,15 +1,14 @@
 {
   "name": "get-or-create-image",
   "version": "1.0.0",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "description": "Lambda@Edge origin-response handler that resizes a source image on demand and caches the result in S3.",
+  "license": "CC BY-SA",
   "dependencies": {
-    "aws-xray-sdk": "^3.5.3",
-    "sharp": "^0.32.6"
+    "@aws-sdk/client-s3": "^3.658.0",
+    "aws-xray-sdk-core": "^3.10.0",
+    "sharp": "^0.33.5"
   },
-  "description": ""
+  "devDependencies": {
+    "esbuild": "^0.24.0"
+  }
 }

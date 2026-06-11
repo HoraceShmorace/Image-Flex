@@ -8,5 +8,7 @@ echo
 sam deploy \
   --region ${REGION} \
   --stack-name ${Stackname} \
-  --template-file .aws-sam/build/template-packaged.yaml \
-  --capabilities CAPABILITY_IAM
+  --resolve-s3 \
+  --capabilities CAPABILITY_IAM \
+  --no-confirm-changeset \
+  --no-fail-on-empty-changeset
