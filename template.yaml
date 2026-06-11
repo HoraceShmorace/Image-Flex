@@ -96,6 +96,17 @@ Resources:
       MemorySize: 128
       Timeout: 1
       Role: !GetAtt EdgeLambdaRole.Arn
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Format: esm
+        Target: node22
+        Sourcemap: false
+        Minify: true
+        OutExtension:
+          - .js=.mjs
+        EntryPoints:
+          - index.mts
 
   GetOrCreateImageFunction:
     Type: AWS::Serverless::Function
@@ -108,6 +119,8 @@ Resources:
       MemorySize: 256
       Timeout: 30
       Role: !GetAtt EdgeLambdaRole.Arn
+    Metadata:
+      BuildMethod: makefile
 
   WebACL:
     Type: AWS::WAFv2::WebACL

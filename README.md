@@ -17,14 +17,14 @@ The original inspiration for this application came from [this AWS blog post](htt
 While Image-Flex does technically support setting a region to use other than `us-east-1`, AWS WAF working with CloudFront requires `us-east-1`. This is an AWS limitation, and as another one limits all resources in a CloudFormation stack to the same region, the only usable region is `us-east-1`.
 
 ## Prerequisites
-Note that this is a production-ready application, not a tutorial. This document assumes you have some working knowledge of AWS, [CloudFormation](https://aws.amazon.com/cloudformation/) and the [Serverless Application Model (SAM)](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html), [AWS Lambda](https://aws.amazon.com/lambda/), [S3](https://aws.amazon.com/s3/), [Node.js](https://nodejs.org/), [NPM](https://www.npmjs.com/), and JavaScript.
+Note that this is a production-ready application, not a tutorial. This document assumes you have some working knowledge of AWS, [CloudFormation](https://aws.amazon.com/cloudformation/) and the [Serverless Application Model (SAM)](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html), [AWS Lambda](https://aws.amazon.com/lambda/), [S3](https://aws.amazon.com/s3/), [Node.js](https://nodejs.org/), [NPM](https://www.npmjs.com/), and [TypeScript](https://www.typescriptlang.org/).
 
 ## Requirements
 1. [Node.js v24.x](https://github.com/nvm-sh/nvm?tab=readme-ov-file#intro). It's recommended to use [Node Version Manager](https://github.com/nvm-sh/nvm), which allows one system to install and switch between multiple Node.js versions.
+1. [npm](https://www.npmjs.com/) v10 or newer (ships with Node.js v24). The Sharp Lambda build uses npm's `--os`, `--cpu`, and `--libc` install flags, which require a recent npm.
 1. An [AWS account](https://aws.amazon.com/account/sign-up).
 1. The [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html).
 1. The [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install-mac.html).
-1. [Docker](https://docs.docker.com/engine/install/) for SAM packaging.
 
 Be sure to configure the AWS CLI:
 ```bash
@@ -33,24 +33,21 @@ $ aws configure
 For detailed instructions on setting up the AWS CLI, read [the official AWS CLI documentation](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).
 
 ## Quickstart
-Just setup, deploy (update), and upload your source images to the S3 "hosting" bucket.
+Just deploy and upload your source images to the S3 "hosting" bucket.
 
-Spin up an instance of the whole service in 2 commands! Run the `setup` and `update` NPM scripts, passing a name for your execution environment (see [Setting the execution environment](#information_source-setting-the-execution-environment)). For a detailed explanation of these commands, see the section [Building and Deploying](#building-and-deploying).
+Spin up an instance of the whole service in a single command! Run the `update` NPM script, passing a name for your execution environment (see [Setting the execution environment](#information_source-setting-the-execution-environment)). For a detailed explanation of these commands, see the section [Building and Deploying](#building-and-deploying).
 
 ```bash
-$ npm run setup -- dev
 $ npm run update -- dev
 ```
 
-1. The `setup` NPM script will create the CloudFormation deployment bucket. You only need to run this command once per execution environment.
-1. The `update` NPM script will build, package, and deploy the application stack to CloudFormation using the AWS SAM CLI. When the script is finished, it will print an "Outputs" section that includes the "DistributionDomain," which is the URL for your CloudFront distribution (e.g., `[Distro ID].cloudfront.net`). Note this value for later, as it is how you will access the service.
+The `update` NPM script will build and deploy the application stack to CloudFormation using the AWS SAM CLI. SAM CLI manages its own deployment artifacts bucket via `--resolve-s3`, so there's no separate setup step. When the script is finished, it will print an "Outputs" section that includes the "DistributionDomain," which is the URL for your CloudFront distribution (e.g., `[Distro ID].cloudfront.net`). Note this value for later, as it is how you will access the service.
 
-> These scripts optionally accept an argument to indicate the execution environment. If you don't set the execution environment, the default of "dev" will be used. For info on setting the execution environment, see [Setting the execution environment](https://github.com/HoraceShmorace/Image-Flex#information_source-setting-the-execution-environment).
+> The script optionally accepts an argument to indicate the execution environment. If you don't set the execution environment, the default of "dev" will be used. For info on setting the execution environment, see [Setting the execution environment](https://github.com/HoraceShmorace/Image-Flex#information_source-setting-the-execution-environment).
 
 ***Example:***
 
 ```bash
-$ npm run setup -- staging
 $ npm run update -- staging
 ```
 
@@ -99,7 +96,7 @@ https://[Distro ID].cloudfront.net/myimage.png?f=webp
 
 ## How It Works
 
-The fully actioned (built, packaged, and deployed) [SAM template](/template.yaml) will result in a CloudFormation *stack* of resources being created across numerous AWS services (see the following table). 
+The fully built and deployed [SAM template](/template.yaml) will result in a CloudFormation *stack* of resources being created across numerous AWS services (see the following table). 
 
 > Any named resources will have the name prepended with the name of the stack, which itself is assembled from the application (image-flex), your AWS account ID, and the execution environment ("dev" by default).
 > **Example stack name:** `image-flex-412342973409-prod`
@@ -118,19 +115,17 @@ The fully actioned (built, packaged, and deployed) [SAM template](/template.yaml
 ## Building and Deploying
 The following NPM scripts are available:
 
-1. setup
 1. build
-1. package
 1. deploy
 1. update
 
-💡 Each NPM script calls a Bash script of the same name in the /bin directory. Be sure to set `execute` permissions on this directory:
+💡 The deploy and build npm scripts call Bash scripts of the same name in the /bin directory. Be sure to set `execute` permissions on this directory:
 ```bash
 chmod -R 755 ./bin
 ```
 
 ### :information_source: Setting the execution environment
-These scripts (except for build) all run within the context of an execution environment (e.g., dev, staging, prod, etc.). This will be appended to the name of your Image Flex-based application in CloudFormation.
+These scripts run within the context of an execution environment (e.g., dev, staging, prod, etc.). This will be appended to the name of your Image Flex-based application in CloudFormation.
 
 There are 2 ways to set the execution environment. If you don't explicitly set it via one of these  methods, the default environment "dev" will be used.
 
@@ -153,11 +148,10 @@ setx IF_ENV "prod"
 ```
 and then run the scripts, affecting your "prod" environment without the command-line arguments
 ```bash
-npm run setup
 npm run update
 ```
 #### via the command line
-Alternately, the `setup`, `package`, `deploy`, and `update` scripts accept an optional command line argument to indicate the current execution environment (e.g., dev, staging, prod, etc.).
+Alternately, the `deploy` and `update` scripts accept an optional command line argument to indicate the current execution environment (e.g., dev, staging, prod, etc.).
 
 Examples:
 * `$ npm run update -- dev`
@@ -166,47 +160,34 @@ Examples:
 * `$ npm run update -- bills-test`
 
 ### NPM Scripts
-### 1. Setup
-```bash
-$ npm run setup [-- env]
-```
-Creates the CloudFormation deployment S3 bucket. SAM/CloudFormation will upload packaged build artifacts to this bucket to later be deployed. You only need to run this command once per execution environment.
-
-### 2. Update
+### 1. Update
 ```bash
 $ npm run update [-- env]
 ```
-A convenience script that runs `npm run build`, `npm run package`, and `npm run deploy` in order.
+A convenience script that runs `npm run build` and `npm run deploy` in order.
 
 ----
 These are generally only called directly when debugging.
-### 3. Build
+### 2. Build
 ```bash
 $ npm run build
 ```
-Installs and builds the dependencies for the ***GetOrCreateImage*** Lambda function using a Docker container built on the lambci/lambda:build-nodejs16.x Docker container image.
+Compiles the TypeScript Lambda sources (`.mts`) into ESM bundles (`.mjs`). `UriToS3Key` uses SAM's native esbuild builder. `GetOrCreateImage` uses a custom Makefile build (see `src/GetOrCreateImage/Makefile`) that runs esbuild and installs Sharp's `linux-x64` native binaries via `npm install --os=linux --cpu=x64 --libc=glibc`, then copies them alongside the bundle. No Docker required.
 
-### 4. Package
-```bash
-$ npm run package [-- env]
-```
-Packages (zips) the functions and built dependencies, and uploads the artifacts to the deployment bucket.
-
-### 5. Deploy
+### 3. Deploy
 ```bash
 $ npm run deploy [-- env]
 ```
-Deploys the application as defined by the SAM template, creating or updating the resources.
+Deploys the application as defined by the SAM template, creating or updating the resources. Uses `sam deploy --resolve-s3` to manage its own artifacts bucket — no manual bucket creation is required.
 
-## Linting
-Linting is instrumented via ESLint using Standardx (JavaScript Standard Style). To execute linting, run the following:
-
+## Type checking
+```bash
+$ npm run typecheck
 ```
-npm run lint
-```
+Runs `tsc --noEmit` against `src/**/*.mts` to validate types without emitting output.
 
 ## Testing
-Unit tests are instrumented via Jest. 
+Unit tests are instrumented via Jest with `@swc/jest` transforming `.mts` test files. 
 
 ```
 npm run test
@@ -242,7 +223,7 @@ ViewerCertificate:
 Be sure to replace `YOUR CERTIFICATE MANAGER ARN HERE` with the ARN of your certificate.
 
 ### 3. Customize your image conversion settings
-Image Flex uses [Sharp](https://sharp.pixelplumbing.com/) to resize, convert, and optimize images. When the image is formatted (via the `Sharp.toFormat` method), certain options can be set to effect the output quality of the resulting  image of a specific format. By default, Image Flex only sets the output quality percentage in the [GetOrCreateImage Lambda function](src/GetOrCreateImage/GetOrCreateImage.js#L55) (but no other options):
+Image Flex uses [Sharp](https://sharp.pixelplumbing.com/) to resize, convert, and optimize images. When the image is formatted (via the `Sharp.toFormat` method), certain options can be set to effect the output quality of the resulting  image of a specific format. By default, Image Flex only sets the output quality percentage in the [GetOrCreateImage Lambda function](src/GetOrCreateImage/GetOrCreateImage.mts) (but no other options):
 
 ```
 quality: 95
@@ -256,6 +237,6 @@ See [the official Sharp documentation](https://sharp.pixelplumbing.com/api-outpu
 
 
 ## License
-Copyright 2021-2025 Horace Nelson.
+Copyright 2021-2026 Horace Nelson.
 
 Available for free personal or commercial use only under [Creative Commons: Attribution-ShareAlike](https://creativecommons.org/licenses/by-sa/4.0/) license.
